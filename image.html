@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Images – Teddy Coste</title>
+  <style>
+
+    .back-link {
+  position: absolute;
+  top: 20px;
+  left: 60px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  color: black;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12px;
+      margin: 40px;
+      background-color: #fff;
+      color: #000;
+      text-align: center;
+    }
+
+    #slideshow {
+      max-width: 800px;
+      margin: auto;
+      cursor: pointer;
+    }
+
+  img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  margin-top: 60px; /* ⇠ 3–4 sauts de ligne visuels */
+  margin-bottom: 10px;
+}
+
+
+    .caption {
+      margin-top: 5px;
+      margin-bottom: 50px; /* ~3 sauts de ligne */
+    }
+
+    .arrow-container {
+      margin-top: 0;
+    }
+
+    .arrow {
+      font-size: 1.5em;
+      margin: 0 10px;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+    }
+
+    .arrow:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link">← BACK</a>
+
+  <div id="slideshow">
+    <img id="slide" src="images/RBA.jpg" alt="Projet 1">
+    <div class="caption" id="caption">
+      <em>Référentiel Bondissant Aléatoire</em>, 2025<br> HD Vidéo, (color, sound)<br>Duration 4:05 min
+    </div>
+    <div class="arrow-container">
+      <span class="arrow" id="prev">&#8592;</span>
+      <span class="arrow" id="next">&#8594;</span>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+     {
+  src: "images/RBA.jpg",
+  caption: "<em>Référentiel Bondissant Aléatoire</em>, 2025<br> HD Vidéo, (color, sound)<br>Duration 4:05 min"
+},
+{
+  src: "images/RBA1.jpg",
+  caption: "<em>Référentiel Bondissant Aléatoire</em>, 2025<br> HD Vidéo, (color, sound)<br>Duration 4:05 min"
+},
+{
+src: "images/RBA2.jpg",
+  caption: "<em>Référentiel Bondissant Aléatoire TTL</em>, 2025<br> HD Vidéo, (color, sound)<br>Duration 1:21 min"
+},
+{
+src: "images/RBA3.jpg",
+  caption: "<em>Référentiel Bondissant Aléatoire TTL</em>, 2025<br> HD Vidéo, (color, sound)<br>Duration 1:21 min"
+},
+{
+src: "images/rom.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/rom1.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/rom2.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/rom3.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/rom4.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/rom5.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/rom6.jpg",
+  caption: "<em>Romantische Comedie</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 14:03 min"
+},
+{
+src: "images/LAG.jpg",
+  caption: "<em>Life as a Guest</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 15:18 min"
+},
+{
+src: "images/LAG1.jpg",
+  caption: "<em>Life as a Guest</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 15:18 min"
+},
+{
+src: "images/LAG2.jpg",
+  caption: "<em>Life as a Guest</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 15:18 min"
+},
+{
+src: "images/LAG3.jpg",
+  caption: "<em>Life as a Guest</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 15:18 min"
+},
+{
+src: "images/LAG4.jpg",
+  caption: "<em>Life as a Guest</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 15:18 min"
+},
+{
+src: "images/LAG5.jpg",
+  caption: "<em>Life as a Guest</em>, 2019<br> HD Vidéo, (color, sound)<br>Duration 15:18 min"
+},
+{
+src: "images/philo.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/philo1.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/philo2.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/philo3.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/philo4.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/philo5.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/philo6.jpg",
+  caption: "<em>En Aparté</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 10:27 min"
+},
+{
+src: "images/751.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/752.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/753.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/754.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/755.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/756.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/757.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/758.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/759.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/751.jpg",
+  caption: "<em>The Workshop</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 34:13 min"
+},
+{
+src: "images/rugby.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/rugby1.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/rugby2.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/rugby3.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/rugby4.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/rugby5.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/rugby6.jpg",
+  caption: "<em>Chewing-Gum +</em>, 2018<br> HD Vidéo, (color, sound)<br>Duration 6:36 min"
+},
+{
+src: "images/z.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/z1.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/z2.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/z3.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/z4.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/z5.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/z6.jpg",
+  caption: "<em>Private Insert #1</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 3:53 min"
+},
+{
+src: "images/vache1.jpg",
+  caption: "<em>Private Insert #2</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 4:04 min"
+},
+{
+src: "images/vache2.jpg",
+  caption: "<em>Private Insert #2</em>, 2017<br> HD Vidéo, (color, sound)<br>Duration 4:04 min"
+},
+    ];
+
+    let current = 0;
+
+    const slide = document.getElementById("slide");
+    const caption = document.getElementById("caption");
+
+    function showSlide(index) {
+      current = (index + images.length) % images.length;
+      slide.src = images[current].src;
+caption.innerHTML = images[current].caption;
+    }
+
+    document.getElementById("slideshow").addEventListener("click", () => {
+      showSlide(current + 1);
+    });
+
+    document.getElementById("prev").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showSlide(current - 1);
+    });
+
+    document.getElementById("next").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showSlide(current + 1);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") showSlide(current + 1);
+      if (e.key === "ArrowLeft") showSlide(current - 1);
+    });
+  </script>
+
+</body>
+</html>

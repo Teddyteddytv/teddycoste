@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Work – Teddy Coste</title>
+  <style>
+
+    .back-link {
+  position: absolute;
+  top: 20px;
+  left: 60px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 12px;
+  color: black;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12px;
+      margin: 40px;
+      background-color: #fff;
+      color: #000;
+      text-align: center;
+    }
+
+    #slideshow {
+      max-width: 800px;
+      margin: auto;
+      cursor: pointer;
+    }
+
+  img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  margin-top: 60px; /* ⇠ 3–4 sauts de ligne visuels */
+  margin-bottom: 10px;
+}
+
+
+    .caption {
+      margin-top: 5px;
+      margin-bottom: 50px; /* ~3 sauts de ligne */
+    }
+
+    .arrow-container {
+      margin-top: 0;
+    }
+
+    .arrow {
+      font-size: 1.5em;
+      margin: 0 10px;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+    }
+
+    .arrow:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link">← BACK</a>
+
+  <div id="slideshow">
+    <img id="slide" src="images/farm.jpg" alt="Projet 1">
+    <div class="caption" id="caption">
+      <em>Exhibition view, Conduits & Credits, <br> Cité Internationale des Arts, Paris, 2025</em>
+    </div>
+    <div class="arrow-container">
+      <span class="arrow" id="prev">&#8592;</span>
+      <span class="arrow" id="next">&#8594;</span>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+     {
+  src: "images/farm.jpg",
+  caption: "Exhibition view, <em>Conduits & Credits</em><br>Cité Internationale des Arts, Paris, 2025"
+},
+{
+  src: "images/farm1.jpg",
+  caption: "Exhibition view, <em>Conduits & Credits</em><br>Cité Internationale des Arts, Paris, 2025"
+},
+{
+  src: "images/farm4.jpg",
+  caption: "<em>La Vie Privée des Animaux (GOAT)</em>, 2025<br>C-Print<br>30 × 45 cm"
+},
+{
+  src: "images/farm2.jpg",
+  caption: "<em>La Vie Privée des Animaux (BOSS)</em>, 2025<br>C-Print<br>45 × 30 cm"
+},
+{
+  src: "images/rugbyball.jpg",
+  caption: "<em>Référentiel Bondissant Aléatoire</em>, 2025<br>Rugby Ball, Glitter<br>30 × 18 × 15 cm"
+},
+{
+  src: "images/LMY.jpg",
+  caption: "<em>Coccoon</em>, 2025<br>Envelop, Acrylic, Oil Stick<br>29,7 × 42 cm"
+},
+{
+  src: "images/jarno.jpg",
+  caption: "<em>My Friend</em>, 2024<br>Display Mannequin, Clay, Acrylic, Textile, Wig <br>29,5 x 20,5 x 110 cm"
+},
+{
+  src: "images/jarno1.jpg",
+  caption: "<em>My Friend</em>, 2024<br>Display Mannequin, Clay, Acrylic, Textile, Wig <br>29,5 x 20,5 x 110 cm"
+},
+{
+  src: "images/teddy.jpg",
+  caption: "<em>Teddy</em>, 2023<br>Chewing-gum, Clay<br>30 × 25 × 15 cm"
+},
+{
+  src: "images/TJ0.jpg",
+  caption: "<em>The Junction</em>, 2022<br>Riso Printed Poster<br> 59,4 × 42 cm"
+},
+{
+  src: "images/bk3.jpg",
+  caption: "<em>The Studio</em>, 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm"
+},
+{
+  src: "images/bk2.jpg",
+  caption: "<em>The Studio</em>, 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm"
+},
+{
+  src: "images/details.jpg",
+  caption: "<em>The Studio</em>(details), 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm"
+},
+{
+  src: "images/details2.jpg",
+  caption: "<em>The Studio</em>(details), 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm"
+},
+{
+  src: "images/details3.jpg",
+  caption: "<em>The Studio</em>(details), 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm"
+},
+{
+  src: "images/ears.jpg",
+  caption: "<em>Perichondritis</em>, 2019<br>Pencil on paper<br>29,7 × 42 cm"
+},
+{
+  src: "images/eggs.jpg",
+  caption: "<em>Shock</em>, 2019<br>Pencil on paper<br>29,7 × 42 cm"
+},
+{
+  src: "images/aspirer.jpg",
+  caption: "<em>Aspirer à devenir aspirant / Aspirant à devenir aspiré </em>, 2019<br>Pencil on paper<br>42 × 29,7 cm"
+},
+{
+  src: "images/tardigrade.jpg",
+  caption: "<em>Tardigrade</em>, 2019<br>Alabaster<br>32 × 15 × 16 cm"
+},
+{
+  src: "images/dog.jpg",
+  caption: "<em>Dog</em>, 2018<br>Fabric, Polyuréthane foam, Thermo-propylen rubber<br>50 × 35 × 110 cm"
+},
+{
+  src: "images/friends.jpg",
+  caption: "<em>Three Friends</em>, 2018<br>Cardboard, Thermo-propylen rubber<br>60 × 0,5 × 130 cm"
+},
+{
+  src: "images/frog.jpg",
+  caption: "<em>Frog</em>, 2016<br>Wood, Wool<br>65 × 5 × 45 cm"
+},
+{
+  src: "images/puppet.jpg",
+  caption: "<em>Les Choses Qui Nous Entourent</em>, 2016<br>Dummy Doll, Fabric, iPad, HD Video<br>77 x 14,5 x 77 cm"
+}
+
+    ];
+
+    let current = 0;
+
+    const slide = document.getElementById("slide");
+    const caption = document.getElementById("caption");
+
+    function showSlide(index) {
+      current = (index + images.length) % images.length;
+      slide.src = images[current].src;
+caption.innerHTML = images[current].caption;
+    }
+
+    document.getElementById("slideshow").addEventListener("click", () => {
+      showSlide(current + 1);
+    });
+
+    document.getElementById("prev").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showSlide(current - 1);
+    });
+
+    document.getElementById("next").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showSlide(current + 1);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") showSlide(current + 1);
+      if (e.key === "ArrowLeft") showSlide(current - 1);
+    });
+  </script>
+
+</body>
+</html>

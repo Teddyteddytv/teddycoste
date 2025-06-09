@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Work – Teddy Coste</title>
+  <style>
+    .back-link {
+      position: absolute;
+      top: 20px;
+      left: 60px;
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12px;
+      color: black;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    body {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 12px;
+      margin: 40px;
+      background-color: #fff;
+      color: #000;
+      text-align: center;
+    }
+
+    #slideshow {
+      max-width: 800px;
+      margin: auto;
+      cursor: pointer;
+    }
+
+    img {
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      margin-top: 80px;
+      margin-bottom: 10px;
+    }
+
+    .caption {
+      margin-top: 10px;
+      margin-bottom: 50px;
+    }
+
+    .arrow-container {
+      margin-top: 0;
+    }
+
+    .arrow {
+      font-size: 1.5em;
+      margin: 0 10px;
+      cursor: pointer;
+      user-select: none;
+      display: inline-block;
+    }
+
+    .arrow:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link">← BACK</a>
+
+  <div id="slideshow">
+    <img id="slide" src="images/Projet1.jpg" alt="Projet 1">
+    <div class="caption" id="caption">
+      <em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025
+    </div>
+    <div class="arrow-container">
+      <span class="arrow" id="prev">&#8592;</span>
+      <span class="arrow" id="next">&#8594;</span>
+    </div>
+  </div>
+
+  <script>
+    const images = [
+      {
+        src: "images/Projet1.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025"
+      },
+            {
+        src: "images/RBA4.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025"
+      },
+            {
+        src: "images/RBA5.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025"
+      },
+            {
+        src: "images/RBA6.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025"
+      },
+            {
+        src: "images/RBA7.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025"
+      },
+                  {
+        src: "images/RBA8.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, CAPC musée d'art contemporain de Bordeaux, 2025"
+      },
+      {
+        src: "images/RBA9.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, W Pantin, 2025"
+      },
+            {
+        src: "images/RBA10.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, W Pantin, 2025"
+      },
+            {
+        src: "images/RBA11.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, W Pantin, 2025"
+      },
+            {
+        src: "images/RBA12.jpg",
+        caption: "<em>Référentiel Bondissant Aléatoire</em>, Performance, W Pantin, 2025"
+      },
+      {
+        src: "images/Groom2.jpg",
+        caption: "<em>Groom Service</em>, Theater play in collaboration with Timothée Trouche, After 8 Books, 2024"
+      },
+      {
+        src: "images/Groom1.jpg",
+        caption: "<em>Groom Service</em>, Theater play in collaboration with Timothée Trouche, After 8 Books, 2024"
+      },
+      {
+        src: "images/groom.jpg",
+        caption: "<em>Groom Service</em>, Radio Drama, Frac Sud - Cité de l'art contemporain, 2024"
+      },
+      {
+        src: "images/twh.jpg",
+        caption: "<em>The White Hair</em>, Performance, Treize, 2023"
+      },
+      {
+        src: "images/twh1.jpg",
+        caption: "<em>The White Hair</em>, Performance, Treize, 2023"
+      },
+      {
+        src: "images/maybe.jpg",
+        caption: "<em>Maybe I’m not the person that I never wanted to be (revised edition, 2022. Malmö mix)</em><br>Radio Drama in collaboration with Thomas Boutoux, Signal Center for Contemporary Art, 2022"
+      },
+      {
+        src: "images/Maybe1.jpg",
+        caption: "<em>Maybe I’m not the person that I never wanted to be (revised edition, 2022. Malmö mix)</em><br>Radio Drama in collaboration with Thomas Boutoux, Signal Center for Contemporary Art, 2022"
+      },
+      {
+        src: "images/showtime.jpg",
+        caption: "<em>Showtime</em>, Performance, Maison Populaire, 2022"
+      },
+            {
+        src: "images/showtime1.jpg",
+        caption: "<em>Showtime</em>, Performance, Maison Populaire, 2022"
+      },
+      {
+        src: "images/TJ.jpg",
+        caption: "<em>The Junction</em>, Performance, Lunchtime Gallery, 2022"
+      },
+      {
+        src: "images/TJ1.jpg",
+        caption: "<em>The Junction</em>, Performance, Lunchtime Gallery, 2022"
+      },
+      {
+        src: "images/TJ2.jpg",
+        caption: "<em>The Junction</em>, Performance, Lunchtime Gallery, 2022"
+      },
+      {
+        src: "images/TJ4.jpg",
+        caption: "<em>The Junction</em>, Performance, Lunchtime Gallery, 2022"
+      },
+      {
+        src: "images/Projet3.jpg",
+        caption: "<em>Meeting Robert</em>, Performance, Het Nieuwe Instituut, 2019"
+      },
+      {
+        src: "images/robert.jpg",
+        caption: "<em>Meeting Robert</em>, Performance, Het Nieuwe Instituut, 2019"
+      },
+       {
+        src: "images/robert2.jpg",
+        caption: "<em>Meeting Robert</em>, Performance, Het Nieuwe Instituut, 2019"
+      },
+      {
+        src: "images/coach.jpg",
+        caption: "<em>The Half Time</em>, Performance, Het Nieuwe Instituut, 2019"
+      },
+        {
+        src: "images/coach1.jpg",
+        caption: "<em>The Half Time</em>, Performance, Het Nieuwe Instituut, 2019"
+      },
+      {
+        src: "images/collateral.jpg",
+        caption: "<em>Collateral</em>, Performance, Swimming Pool, 2018"
+      },
+      {
+        src: "images/collateral2.jpg",
+        caption: "<em>Collateral</em>, Performance, Swimming Pool, 2018"
+      },
+      {
+        src: "images/collateral1.jpg",
+        caption: "<em>Collateral</em>, Performance, Swimming Pool, 2018"
+      },
+
+      {
+        src: "images/tony.jpg",
+        caption: "<em>Meeting Tony</em>, Performance in collaboration with Harilay Rabenjamina, Peach Rotterdam, 2018"
+      },
+      {
+        src: "images/tony1.jpg",
+        caption: "<em>Meeting Tony</em>, Performance in collaboration with Harilay Rabenjamina, Peach Rotterdam, 2018"
+      },
+      {
+        src: "images/tony2.jpg",
+        caption: "<em>Meeting Tony</em>, Performance in collaboration with Harilay Rabenjamina, Peach Rotterdam, 2018"
+      },
+      {
+        src: "images/private.jpg",
+        caption: "<em>Three Privates</em>, Performance starring K. Cameron & G. Nesbitt, Piet Zwart Institute, 2017"
+      },
+      {
+        src: "images/private1.jpg",
+        caption: "<em>Three Privates</em>, Performance starring K. Cameron & G. Nesbitt, Piet Zwart Institute, 2017"
+      },
+      {
+        src: "images/RA.jpg",
+        caption: "<em>The Most Obvious Trick</em>, Performance, Radio Athènes, 2016"
+      },
+      {
+        src: "images/RA1.jpg",
+        caption: "<em>The Most Obvious Trick</em>, Performance, Radio Athènes, 2016"
+      }
+    ];
+
+    let current = 0;
+
+    const slide = document.getElementById("slide");
+    const caption = document.getElementById("caption");
+
+    function showSlide(index) {
+      current = (index + images.length) % images.length;
+      slide.src = images[current].src;
+      caption.innerHTML = images[current].caption;
+    }
+
+    document.getElementById("slideshow").addEventListener("click", () => {
+      showSlide(current + 1);
+    });
+
+    document.getElementById("prev").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showSlide(current - 1);
+    });
+
+    document.getElementById("next").addEventListener("click", (e) => {
+      e.stopPropagation();
+      showSlide(current + 1);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") showSlide(current + 1);
+      if (e.key === "ArrowLeft") showSlide(current - 1);
+    });
+  </script>
+
+</body>
+</html>
