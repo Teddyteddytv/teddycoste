@@ -433,7 +433,7 @@ function ink(el,dur=700){el.getAnimations().forEach(a=>a.cancel());if(reduce)ret
   el.animate([{clipPath:'inset(0 100% 0 0)',filter:'blur(8px)',opacity:.4},{clipPath:'inset(0 0% 0 0)',filter:'blur(0px)',opacity:1}],{duration:dur,easing:'cubic-bezier(0.23, 1, 0.32, 1)'})}
 
 /* ---------- index ---------- */
-$('list').innerHTML=P.map(p=>`<li><a href="#${p.slug}" data-s="${p.slug}"><span class="yr">${p.year||'—'}</span><span class="t serif">${esc(p.short||p.title)}</span><span class="v">${esc(p.where||venues(p))}</span></a></li>`).join('');
+$('list').innerHTML=P.map(p=>`<li><a href="#${p.slug}" data-s="${p.slug}"><span class="yr">${p.year||'—'}</span><span class="t serif">${esc(p.short||p.title)}</span><span class="v">${esc(p.where||venues(p)).split(' · ').join('<br>')}</span></a></li>`).join('');
 /* hover preview: the first print of a performance develops beside the pointer */
 const peek=$('peek'),fine=matchMedia('(hover: hover) and (pointer: fine)').matches;let peekOn=null;
 if(fine){
