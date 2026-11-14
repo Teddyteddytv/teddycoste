@@ -7,12 +7,12 @@
 <title>Teddy Coste — Performances</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;1,400&family=Schibsted+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 /* VOICE: a quiet archive; the prints talk, captions stay small and exact, like his current site
    IDEA: a box of Instax Wide reprints, one bundle per performance, each print still developing
    PICTURE: a curved fan of prints in 3D, the front one forward, the rest turning away like spines
-   COLOUR and TYPE: pale grey wall, ink black, undeveloped-film teal accent; Ibarra Real Nova (a nod to his Times) for titles, Schibsted Grotesk for captions
+   COLOUR and TYPE: pale grey wall, ink black, undeveloped-film teal accent; Libre Franklin throughout (stand-in for TeeFranklin)
    LAYOUT: index = list of performances; a performance = title, fan of its prints, caption, description, previous/next */
 :root{color-scheme:only light; /* always dark ink on the light wall, whatever the device theme */
   
@@ -24,16 +24,16 @@
 html,body{background:#e3e5e4;color:#141615}
 *{box-sizing:border-box;min-width:0}
 html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Schibsted Grotesk",system-ui,sans-serif;overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Libre Franklin",system-ui,sans-serif;overflow-x:clip}
 ::selection{background:var(--accent);color:var(--paper)}
 a{color:inherit;text-underline-offset:.2em;text-decoration-thickness:1px}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 button,label.btn{font:inherit;color:inherit;touch-action:manipulation;user-select:none;-webkit-user-select:none}
-.serif{font-family:"Ibarra Real Nova","Times New Roman",Times,serif;font-weight:400}
+.serif{font-weight:400;letter-spacing:-.02em}
 [hidden]{display:none!important}
 
 header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px max(5vw,16px) 0}
-.name{font-size:30px;line-height:1;letter-spacing:-.01em;text-decoration:none}
+.name{font-size:24px;font-weight:600;line-height:1;letter-spacing:-.015em;text-decoration:none}
 nav{display:flex;flex-wrap:wrap;gap:0 22px;font-size:14px;color:var(--soft)}
 nav a{text-decoration:none;padding:8px 0;white-space:nowrap}
 @media (max-width:600px){header{flex-direction:column;gap:6px}nav{gap:0 18px}}
@@ -42,12 +42,12 @@ nav a[aria-current]{color:var(--ink)}
 
 /* ---------- index: list of performances ---------- */
 .index{max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,96px) max(5vw,16px) clamp(32px,5vw,64px)}
-.index h1{margin:0 0 clamp(24px,4vw,40px);font-size:clamp(34px,5vw,52px);line-height:1.05;font-style:italic}
+.index h1{margin:0 0 clamp(24px,4vw,40px);font-size:clamp(34px,5vw,52px);line-height:1.05}
 .list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .list a{display:grid;grid-template-columns:5ch minmax(0,1fr) minmax(0,.8fr);gap:8px 24px;align-items:baseline;padding:16px 4px;
   border-bottom:1px solid var(--line);text-decoration:none;transition:background-color 200ms ease}
 .list .yr{font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
-.list .t{font-size:clamp(22px,2.6vw,30px);line-height:1.15;font-style:italic;text-wrap:balance}
+.list .t{font-size:clamp(22px,2.6vw,30px);line-height:1.15;text-wrap:balance}
 .list .v{font-size:14px;color:var(--soft)}
 @media (hover:hover) and (pointer:fine){.list a:hover{background:var(--ghost)}}
 @media (max-width:700px){.list a{grid-template-columns:5ch minmax(0,1fr)}.list .v{grid-column:2}}
@@ -57,7 +57,7 @@ nav a[aria-current]{color:var(--ink)}
 /* ---------- a performance ---------- */
 .perf .head{text-align:center;padding:clamp(28px,4vw,48px) max(5vw,16px) 0}
 .back{font-size:14px;color:var(--soft);text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:44px}
-.perf h1{margin:4px auto 6px;max-width:22ch;font-size:clamp(34px,5vw,52px);line-height:1.05;font-style:italic;text-wrap:balance}
+.perf h1{margin:4px auto 6px;max-width:22ch;font-size:clamp(34px,5vw,52px);line-height:1.05;text-wrap:balance}
 .credit{margin:0 auto;max-width:60ch;color:var(--soft);font-size:15px;text-wrap:balance}
 
 .stage{position:relative;height:var(--sh,560px);perspective:1500px;perspective-origin:50% 40%;touch-action:pan-y;cursor:grab;outline:none;overflow:hidden}
@@ -82,7 +82,7 @@ nav a[aria-current]{color:var(--ink)}
 .desc .video{position:relative;aspect-ratio:16/9;margin:32px 0 8px;background:var(--ghost)}
 .desc .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .desc .vlink{font-size:13px;color:var(--soft)}
-.desc blockquote{margin:22px 0 22px clamp(16px,3vw,32px);font-family:"Ibarra Real Nova","Times New Roman",Times,serif;font-style:italic;font-size:clamp(20px,2.2vw,24px);line-height:1.3;text-wrap:balance}
+.desc blockquote{margin:22px 0 22px clamp(16px,3vw,32px);font-weight:300;letter-spacing:-.01em;font-size:clamp(20px,2.2vw,24px);line-height:1.3;text-wrap:balance}
 .todo{color:var(--soft);font-style:italic}
 .btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:transparent;cursor:pointer;font-size:14px;text-decoration:none;transition:transform 160ms var(--ease-out),background-color 200ms ease}
 .btn:active{transform:scale(.97)}
@@ -94,12 +94,12 @@ nav a[aria-current]{color:var(--ink)}
 .pn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;max-width:1240px;margin:clamp(40px,6vw,80px) auto 0;padding:20px max(5vw,16px) 0;border-top:1px solid var(--line)}
 .pn a{text-decoration:none;display:block;padding:8px 0}
 .pn small{display:block;font-size:13px;color:var(--soft)}
-.pn span{font-size:clamp(20px,2.4vw,26px);font-style:italic;line-height:1.15}
+.pn span{font-size:clamp(20px,2.4vw,26px);line-height:1.15}
 .pn a:last-child{text-align:right}
 
 /* ---------- contact ---------- */
 .page{max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,96px) max(5vw,16px) clamp(24px,4vw,48px)}
-.page h1{margin:0 0 clamp(20px,3vw,32px);font-size:clamp(34px,5vw,52px);line-height:1.05;font-style:italic}
+.page h1{margin:0 0 clamp(20px,3vw,32px);font-size:clamp(34px,5vw,52px);line-height:1.05}
 .page .lead{margin:0 0 4px;color:var(--soft)}
 .cvwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,340px);gap:clamp(32px,6vw,96px);align-items:start}
 .cvtext{grid-column:1;grid-row:1}
@@ -109,12 +109,12 @@ nav a[aria-current]{color:var(--ink)}
 @media (hover:hover) and (pointer:fine){.bio:hover{transform:rotate(0deg)}}
 @media (max-width:760px){.cvwrap{grid-template-columns:minmax(0,1fr)}.cvpic{grid-column:1;grid-row:1;position:static;justify-self:center;width:min(66vw,280px);padding-top:0}.cvtext{grid-row:2}}
 @media (prefers-reduced-motion:reduce){.bio{transition:none}}
-.cv h2{margin:clamp(32px,5vw,56px) 0 8px;font-size:clamp(24px,2.8vw,32px);line-height:1.1;font-style:italic}
+.cv h2{margin:clamp(32px,5vw,56px) 0 8px;font-size:clamp(24px,2.8vw,32px);line-height:1.1}
 .cv dl{margin:0;border-top:1px solid var(--line)}
 .cv .yr{display:grid;grid-template-columns:6ch minmax(0,1fr);gap:8px 24px;padding:16px 0;border-bottom:1px solid var(--line)}
 .cv dt{font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums;padding-top:3px}
 .cv dd{margin:0}.cv dd p{margin:0 0 10px;max-width:70ch}.cv dd p:last-child{margin:0}
-.cv em,.contact em{font-family:"Ibarra Real Nova","Times New Roman",Times,serif;font-size:1.12em}
+.cv em,.contact em{font-style:italic}
 /* instant photographs: a mosaic of developed prints; one comes forward and develops when clicked */
 .mosaic{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px);margin-top:clamp(8px,2vw,16px)}
 .tile{position:relative;aspect-ratio:1;display:grid;place-items:center;padding:0;border:0;background:none;cursor:zoom-in}
@@ -155,7 +155,7 @@ nav a[aria-current]{color:var(--ink)}
 .lb .ctl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion:reduce){.evr img,.lb,.lb .fr img{transition:none}}
 .contact{max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,96px) max(5vw,16px) 24px}
-.contact h2{margin:0 0 10px;font-size:clamp(28px,3.4vw,40px);line-height:1.05;font-style:italic}
+.contact h2{margin:0 0 10px;font-size:clamp(28px,3.4vw,40px);line-height:1.05}
 .contact p{margin:0 0 8px;max-width:62ch}
 .mail{font-size:clamp(20px,2.6vw,28px)}
 footer{padding:0 max(5vw,16px) 32px;color:var(--soft);font-size:13px;max-width:1240px;margin:0 auto}
@@ -165,7 +165,7 @@ footer{padding:0 max(5vw,16px) 32px;color:var(--soft);font-size:13px;max-width:1
   padding:clamp(20px,5vw,72px);background:var(--bg);opacity:0;visibility:hidden;transition:opacity 250ms var(--ease-out),visibility 0s 250ms;overflow-y:auto;overscroll-behavior:contain}
 .detail.open{opacity:1;visibility:visible;transition:opacity 250ms var(--ease-out)}
 .dtext{max-width:440px;justify-self:end}
-.dtext h2{margin:0 0 18px;font-size:clamp(36px,5vw,56px);line-height:1.02;font-style:italic;text-wrap:balance}
+.dtext h2{margin:0 0 18px;font-size:clamp(36px,5vw,56px);line-height:1.02;text-wrap:balance}
 .dtext dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 24px;font-size:14px;font-variant-numeric:tabular-nums}
 .dtext dt{color:var(--soft)}.dtext dd{margin:0}
 .dnav{display:flex;gap:10px;flex-wrap:wrap}
@@ -181,7 +181,7 @@ footer{padding:0 max(5vw,16px) 32px;color:var(--soft);font-size:13px;max-width:1
 </head>
 <body>
 <header>
-  <a class="name serif" href="#" id="home">Teddy Coste</a>
+  <a class="name" href="#" id="home">Teddy Coste</a>
   <nav><a href="#" id="nav-home">Selected Performances</a><a href="#instant-photographs" id="nav-instant-photographs">Instant Photographs</a><a href="#exhibition-views" id="nav-exhibition-views">Exhibition Views</a><a href="#cv" id="nav-cv">CV</a></nav>
 </header>
 
@@ -329,33 +329,33 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
    L = landscape (thick border at the bottom), P = portrait with the thick border on the right, Q = portrait with it on the left.
    desc: the performance text; leave it empty ('') until it is written. */
 const P=[
- {slug:'alphabestiaire',title:'Alphabestiaire',year:2026,credit:'Reading · After 8 Books',prints:'ALPHA:L ALPHA1:Q',
+ {slug:'alphabestiaire',title:'Alphabestiaire',year:2026,credit:'Reading · After 8 Books, Paris',prints:'ALPHA:L ALPHA1:Q',
   desc:'For the launch of Alphabestiaire at After 8 Books, I read a story of my own.\n\nUnder the table at his grandmother’s Sunday lunch, a boy waits for the caramelised popcorn and tries not to be noticed: one false move, and his uncle will send him to the pigs. Years later, a young ceramicist on a rugby scholarship in Japan climbs a mountain road to a silent brutalist residence, where a curator is preparing an exhibition on Roland Barthes. Before he leaves, she has one piece of advice: watch out for wild boars. Some childhood fears never quite let go.\n\nThe book follows the project “Mi-Monstre, Mi-Livre”, organised by After 8 Books and Six Chairs Books in Paris in 2024 for the Lithuanian Season in France. It takes up and extends the graphic and typographic experiments developed over several workshops. Alphabestiaire brings together texts by figures of the Lithuanian scene, such as the artist Anastasia Sosunova, recently shown at the Palais de Tokyo and the Centre Pompidou, and the writer Jurga Tumasonytė, alongside texts by young French artists: Ethan Assouline, Teddy Coste and Théo Robine-Langlois. It also includes reissued texts by authors connected to France and Lithuania, Oscar Milosz and Prosper Mérimée, and an essay by the researcher Akvilė Kabašinskaitė on the figure of Baltrušaitis.'},
- {slug:'referentiel-bondissant-aleatoire',title:'Référentiel Bondissant Aléatoire',year:2025,credit:"Performance · CAPC musée d'art contemporain de Bordeaux, W Pantin",prints:'RBA:L RBA1:P RBA2:P RBA3:P',
+ {slug:'referentiel-bondissant-aleatoire',title:'Référentiel Bondissant Aléatoire',year:2025,credit:"Performance · CAPC musée d'art contemporain, Bordeaux",prints:'RBA:L RBA1:P RBA2:P RBA3:P',
   desc:'Random Bouncing Reference Point is a solo performance combining autobiographical narrative, performed lecture, and conceptual art devices.\n\nThe project takes the form of a monologue embodied by a fictional character. Alternating between direct speech, object manipulation, and video projection, the performance interrogates the conditions of visibility of artworks when they are immaterial, their transport, reception, and disappearance. It draws on historical references to conceptual art and replays some of its strategies, linking them to popular and personal imagination.\n\nConceived for a light frontal setup (voice, props, video), the performance articulates several levels of reading: autofiction, offbeat humor, and reflection on artistic practice.\n\nRugby becomes a central metaphor: that of a game structured around an unstable object – the oval ball – whose unpredictable trajectories embody the logics of displacement, transmission, and randomness that traverse the entire work.'},
- {slug:'i-love-teddy',title:'I ♥ Teddy',year:2025,credit:"Performance · L'étoile Rouge",prints:'ILT:L ILT1:P ILT2:L',
+ {slug:'i-love-teddy',title:'I ♥ Teddy',year:2025,credit:"Performance · L'étoile Rouge, Paris",prints:'ILT:L ILT1:P ILT2:L',
   desc:'I talk to a bear made of chewing gum who shares my name. Through our play on the word “teddy”, I turn over the parts of myself I keep chewing and chewing again: my contradictions, my many identities. The pliable material becomes a mirror of who I am – or who I could be.'},
- {slug:'groom-service',title:'Groom Service',year:2024,credit:"Theater play in collaboration with Timothée Trouche, After 8 Books · Radio Drama, Frac Sud - Cité de l'art contemporain",where:"After 8 Books · Frac Sud - Cité de l'art contemporain",prints:'GS:P GS1:L GS2:L',
+ {slug:'groom-service',title:'Groom Service',year:2024,credit:"Theater play in collaboration with Timothée Trouche, After 8 Books, Paris · Radio Drama, Frac Sud - Cité de l'art contemporain, Marseille",where:"After 8 Books, Paris · Frac Sud - Cité de l'art contemporain, Marseille",prints:'GS:P GS1:L GS2:L',
   desc:'Groom Service is a two-hander co-written and performed with Timothée Trouche. In a hotel where nothing ever happens, a head butler who is forbidden to love – and loves anyway, in secret – spends his nights bullying his groom and pining for the “big client”, booked for a single night.\n\nThe groom has the spleen. He was not always a groom: he was once a conceptual artist of re-photography and appropriation, dressing shop-window mannequins as television game-show contestants. When a museum turned the tables and appropriated his work, he decided to go beyond appropriation, all the way to absorption. He kidnapped the hotel’s real groom and took his place.\n\nThrough absurd dialogue, mimicry and song, the play blurs master and servant, artist and role, original and copy, until the two men flee the hotel for the one place where likeness is everything: the Musée Grévin, the wax museum.'},
- {slug:'the-white-hair',title:'The White Hair',year:2023,credit:'Performance · Treize',prints:'TWH:L TWH1:L TWH2:L',
+ {slug:'the-white-hair',title:'The White Hair',year:2023,credit:'Performance · Treize, Paris',prints:'TWH:L TWH1:L TWH2:L',
   desc:'The White Hair is a monologue performed at Treize for the launch of the CD Labor and Love, at the invitation of Dépense Défensive. It opens with a line from The Sure Thing, a John Cusack comedy released in France as Garçon choc pour nana chic:\n\n> How would you like to have a sexual encounter so intense it could conceivably change your political views?\n\nMost of us would say no. Ask instead about changing someone else’s views, and most of us would say yes.\n\nFrom there, the performance asks what truly makes us want to change. For the narrator, the answer comes in the mirror: a first white hair. He plucks it out in a panic, and the hair starts to talk – about regret, and about how the things we cannot undo end up written on our faces.\n\nLooking back at his early work – at 21, a conceptual artist who wrote his name on sheets of A4 paper and threw them on the floor – he diagnoses himself as a megalomaniac in need of remaking, and sets out to accept the life of a loser. What does a loser belong to? What is a loser good for? He is trying to find out, as soon as he can stop parodying himself.'},
- {slug:'maybe-im-not-the-person',title:'Maybe I’m not the person that I never wanted to be (revised edition, 2022. Malmö mix)',short:'Maybe I’m not the person that I never wanted to be',year:2022,credit:'Radio Drama in collaboration with Thomas Boutoux · Signal Center for Contemporary Art',prints:'MIN:P MIN2:L',
+ {slug:'maybe-im-not-the-person',title:'Maybe I’m not the person that I never wanted to be (revised edition, 2022. Malmö mix)',short:'Maybe I’m not the person that I never wanted to be',year:2022,credit:'Radio Drama in collaboration with Thomas Boutoux · Signal Center for Contemporary Art, Malmö',prints:'MIN:P MIN2:L',
   desc:'– How to remember an era marked by an obsession with amnesia, attention deficit, lost and recovered memory?\n– Wait, what era are you talking about exactly?\n– The 1990s, pardi!\n– Oh… really? I thought you were talking about today…\n– I’m going to tell you the story of how it all happened. The 90s were like nothing but a decade when it started. It was nothing, a blank sheet. The end of history.\n– Stop. Who said that?'},
- {slug:'showtime',title:'Showtime',year:2022,credit:'Performance · Maison Populaire',prints:'S:L S1:L',
+ {slug:'showtime',title:'Showtime',year:2022,credit:'Performance · Maison Populaire, Montreuil',prints:'S:L S1:L',
   desc:'I was invited by Harilay Rabenjamina to perform with the artists Elsa Prudent and Thelia. Harilay’s idea was to build a show from fragments of our respective performances, in which we debate the question of our own visibility. The whole piece follows the rhythm of Harilay’s sound work: loops of distorted pop songs.\n\nMy part opened with Horizontal, an excerpt from The Junction that I translated into French: the monologue of someone who lives horizontally, surfing the surface of things and digressing rather than settling, who dreams of becoming a “pattern artist” but has yet to find the right loop – like the snake in the old Nokia game, which has to keep eating before it can close the circle.\n\n> As if my life were a sampler, and my practice a loop to close at the right moment.\n\nI also wrote a new segment, recorded and arranged over an ABBA song that was itself looped and slowed down: a soliloquy about being able, or unable, to appreciate a moment while living it. As Harilay and Elsa dance, I photograph them, and the song’s line about wanting to freeze the picture keeps returning under the click of the camera and the flash.\n\nShowtime is part of The Artificial Kid, a series of exhibitions and performances initiated by the curator Elsa Vettier.'},
- {slug:'the-junction',title:'The Junction',year:2022,credit:'Performance · Lunchtime Gallery',prints:'TJ:L TJ1:L TJ2:L',
+ {slug:'the-junction',title:'The Junction',year:2022,credit:'Performance · Lunchtime Gallery, Glasgow',prints:'TJ:L TJ1:L TJ2:L',
   desc:'I moved to Glasgow in 2020, during the pandemic, at the start of the second lockdown. With no chance of performing for some time and an urgent need for work, I became a bicycle courier for Deliveroo. The pandemic hit Glasgow’s art scene hard, and for two years I looked, without success, for another source of income. I realised that if I wasn’t living “the artistic life”, there was no point in staying, isolated and cold, delivering food. Still, I wanted to show my practice to the city before leaving.\n\nI wrote The Junction by extending Horizontal, a script from 2017: an abstract text about living “horizontally” and looking for patterns in one’s practice in order to become a pattern artist. Performed in my Deliveroo uniform, with the insulated bag on my back, it speaks as much about my life as an artist as about my work as a courier. The soundtrack played from the same Bluetooth speaker I had carried on my deliveries for two years.\n\nThe performance begins indoors, among the bookshelves, then leads the audience out into the street, the courier’s real workplace. There, I announce that I am quitting my job to become a painter. The delivery bag is set down on a stool, the uniform gives way to a long coat, and an action painting sequence, echoing the text, produces a canvas that ends up hanging on the railings.\n\nA publication with the script and texts by Phoebe Eccles and Caitlin Merrett King was published by Good Press. Kate Morgan reviewed the performance in Nothing Personal Magazine (autumn 2022).'},
- {slug:'meeting-robert',title:'Meeting Robert',year:2019,credit:'Performance · Het Nieuwe Instituut',prints:'MEET:L MEET1:Q MEET2:L',video:'tWvilF2lAYc',
+ {slug:'meeting-robert',title:'Meeting Robert',year:2019,credit:'Performance · Het Nieuwe Instituut, Rotterdam',prints:'MEET:L MEET1:Q MEET2:L',video:'tWvilF2lAYc',
   desc:'Meeting Robert occupies a particular place in my practice: it was the first time I wrote a script without copy-pasting or plagiarising.\n\nI play a character obsessed with celebrity and his own career, who meets a vampire named Robert. A megalomaniac, he embraces the cult of innovation and an attention economy built on cruelty, while asking himself existential questions. At the heart of it all is his big idea: to 3D print a 3D printer, a plan he pitches to the audience on hand-drawn sheets.\n\nThe set and costumes change as the performance unfolds: a long black coat, a clothes rack, a large black disc hanging over the stage. I interact with my props and embody Robert through a mask. Robert the vampire is inspired by the French poet Robert de Montesquiou, and the rap lyrics I perform are drawn from his poems.\n\nSeveral versions of Meeting Robert have been performed: the first in 2018 at Montevideo, Marseille, for Textwork, with the support of the Fondation d’entreprise Ricard; the second in 2019 at San Serriffe, Amsterdam, invited by How To Show Up? for Argento e Oro; and the latest at Het Nieuwe Instituut, Rotterdam, for MIDNIGHT SUNBURN.'},
- {slug:'the-half-time',title:'The Half Time',year:2019,credit:'Performance · Het Nieuwe Instituut',prints:'TH:P TH1:L',
+ {slug:'the-half-time',title:'The Half Time',year:2019,credit:'Performance · Het Nieuwe Instituut, Rotterdam',prints:'TH:P TH1:L',
   desc:'The Half Time is a motivational speech gone adrift. Coach Teddy, in a great jacket, stands on a floating platform and tries to keep his balance while delivering his halftime talk to the team: they are not losing, but they are not winning either.\n\nThe pep talk soon slides into confession. He is here, he admits, because he once nurtured a fantasy about the ideal physical state for literary production, and only now understands that it is an inhuman condition. His game plan is love: play with love, and any place is decent enough. Against the old-fashioned, bourgeois game of the dandy and the petit maître, he chants his slogan:\n\n> Distinction equals extinction!\n\nStumbling through a borrowed passage of Samuel Beckett’s Worstward Ho, the speech ends the way every halftime talk does: hands joined, a count to three, and a call to show some love.'},
- {slug:'collateral',title:'Collateral',year:2018,credit:'Performance · Swimming Pool',prints:'C:L C1:L C2:L',
+ {slug:'collateral',title:'Collateral',year:2018,credit:'Performance · Swimming Pool, Sofia',prints:'C:L C1:L C2:L',
   desc:'During my studies at the Piet Zwart Institute, our class travelled to Sofia with 72 hours to create an event. I had done my research: the plan was to visit a flea market in the basement of a church and invent stories about the objects I found there. On the first day, I discovered that the market had closed for good.\n\nSo I looked for a sign of destiny – literally. I read every sign I could find. Most were in Cyrillic and meant nothing to me, but every one in English became an instruction to follow: billboards, shop names, T-shirt slogans, most of them urging me to change my life. And everywhere, the imagery of the secret agent: the KGB, Johnny English, 007. I decided to become a spy.\n\nI dyed my hair to be unrecognisable and set out to gather information, any information at all. I took long walks through the city, a spy with no mission other than to pass on whatever I gleaned.\n\nI disclosed it all in a performance at Swimming Pool, for Accidentally Sonic, curated by Jan Verwoert, folding in the process of becoming a spy: how I infiltrated places, why I chose my costume, the paranoia of being spotted. Along the way, the spy’s life began to look a lot like an artist’s: travelling, mapping a city by the places that might hold something interesting, brief romances in a life unsuited to lasting ones, an existence inseparable from the work, a constant awareness of social codes and etiquette.'},
- {slug:'meeting-tony',title:'Meeting Tony',year:2018,credit:'Performance in collaboration with Harilay Rabenjamina · Peach Rotterdam',prints:'MT:L MT1:L MT2:L',
+ {slug:'meeting-tony',title:'Meeting Tony',year:2018,credit:'Performance in collaboration with Harilay Rabenjamina · Peach, Rotterdam',prints:'MT:L MT1:L MT2:L',
   desc:'Meeting Tony took place in an apartment. Written with Harilay Rabenjamina, it brings together three characters: Harilay Rabenjamina, Teddy Coste, and their friend Tony Charlois, who happens to be a sculpture.\n\nHarilay and Teddy begin by politely introducing themselves, then turn to Tony: his depression, his style. The conversation grows tense as they try to describe who their friend Tony really is.\n\nThe piece unfolds as a musical, in which Teddy and Harilay sing and dance about friendship, style, shame, electronic music, empathy and happiness.\n\nMeeting Tony was performed at PEACH, Rotterdam, at the invitation of Ghislain Amar.'},
- {slug:'three-privates',title:'Three Privates',year:2017,credit:'Performance starring K. Cameron & G. Nesbitt · Piet Zwart Institute',prints:'3P:L 3P1:L 3P2:Q',
+ {slug:'three-privates',title:'Three Privates',year:2017,credit:'Performance starring K. Cameron & G. Nesbitt · Piet Zwart Institute, Rotterdam',prints:'3P:L 3P1:L 3P2:Q',
   desc:'Three Privates casts Katharina Cameron, George Nesbitt and me as three private detectives. In a film noir office lit by blue-green neon, with coloured fragments scattered across the floor, they share the tricks of a strange trade: telling clients they have been betrayed.\n\nToday’s client is a basset hound. With studied, almost mechanical courtesy, the detectives walk him through the stages every relationship goes through, spelled out on a poster:\n\n> Good, better, best, bested.\n\nTheir advice is to forget. A video tells a story from my grandfather’s farm: a cow whose calves were sold while she was out in the meadow went mad with grief, smashed through the cowshed doors and charged through the village, leaving one question behind – how long does it take to forget? Two days, the detectives answer. Don’t make a fuss for the next 48 hours.\n\nBetrayal, they suggest, might even be a liberation: a release from routine, a chance to change, perhaps to become one of them.'},
- {slug:'the-most-obvious-trick',title:'The Most Obvious Trick',year:2017,credit:'Performance · Radio Athènes',prints:'TMOT:L TMOT1:L',
+ {slug:'the-most-obvious-trick',title:'The Most Obvious Trick',year:2017,credit:'Performance · Radio Athènes, Athens',prints:'TMOT:L TMOT1:L',
   desc:'The Most Obvious Trick grew out of several methods of writing I developed, each connected in its own way to paraphrasing, translating, miscopying, misremembering, misunderstanding and simplifying. Together they form the backbone of the performance, combined into a polyphonic script.\n\nThe voice drifts from caution about the weather to love, failed romance and the making of an artist. Borrowed lines, half-remembered quotes and confessions slip into one another until it becomes hard to tell who is speaking. Along the way, one image gives the piece its title:\n\n> In an environment where no sympathy prevails, magic never works, only the most obvious tricks do.\n\nAt its centre lies a tricky secret joke that I can’t spoil.\n\nThe Most Obvious Trick was performed at Radio Athènes, Athens, for ALL: COLLECTED VOICES, curated by Helena Papadopoulos and Thomas Boutoux.'},
 ];
 /* Instant Photographs: one fan of Instax, no performance attached. Same codes as above; files in /instant */
