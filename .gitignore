@@ -1,0 +1,8 @@
+# Scans originaux (TIFF) : trop lourds pour GitHub, ils restent sur l'ordinateur
+images/
+*.tif
+*.tiff
+# Fichiers de travail
+contact.jpg
+prints/_measure.json
+.DS_Store
