@@ -1,129 +1,586 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teddy Coste</title>
-  <style>
-    body {
-      font-family: "Times New Roman", Times, serif;
-      font-size: 12px;
-      background-color: #fff;
-      color: #000;
-      margin: 40px;
-    }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="only light">
+<title>Teddy Coste — Performances</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ibarra+Real+Nova:ital,wght@0,400;1,400&family=Schibsted+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a quiet archive; the prints talk, captions stay small and exact, like his current site
+   IDEA: a box of Instax Wide reprints, one bundle per performance, each print still developing
+   PICTURE: a curved fan of prints in 3D, the front one forward, the rest turning away like spines
+   COLOUR and TYPE: pale grey wall, ink black, undeveloped-film teal accent; Ibarra Real Nova (a nod to his Times) for titles, Schibsted Grotesk for captions
+   LAYOUT: index = list of performances; a performance = title, fan of its prints, caption, description, previous/next */
+:root{color-scheme:only light; /* always dark ink on the light wall, whatever the device theme */
+  
+  --bg:light-dark(#e3e5e4,#101413);--ink:light-dark(#141615,#ecebe6);--soft:light-dark(#585d5a,#9ba29e);
+  --line:light-dark(#c4c6c3,#29302e);--accent:light-dark(#2d5a62,#86bcc3);--ghost:light-dark(rgba(20,22,21,.07),rgba(236,235,230,.06));
+  --film:#2b3d42;--paper:#f7f6f1;
+  --ease-out:cubic-bezier(0.23,1,0.32,1);--ease-in-out:cubic-bezier(0.77,0,0.175,1)}
+:root,:root[data-theme=light],:root[data-theme=dark]{color-scheme:only light}
+html,body{background:#e3e5e4;color:#141615}
+*{box-sizing:border-box;min-width:0}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Schibsted Grotesk",system-ui,sans-serif;overflow-x:clip}
+::selection{background:var(--accent);color:var(--paper)}
+a{color:inherit;text-underline-offset:.2em;text-decoration-thickness:1px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+button,label.btn{font:inherit;color:inherit;touch-action:manipulation;user-select:none;-webkit-user-select:none}
+.serif{font-family:"Ibarra Real Nova","Times New Roman",Times,serif;font-weight:400}
+[hidden]{display:none!important}
 
-    h1 {
-      font-size: 1em;
-      font-weight: normal;
-      margin: 0;
-    }
+header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:22px max(5vw,16px) 0}
+.name{font-size:30px;line-height:1;letter-spacing:-.01em;text-decoration:none}
+nav{display:flex;flex-wrap:wrap;gap:0 22px;font-size:14px;color:var(--soft)}
+nav a{text-decoration:none;padding:8px 0;white-space:nowrap}
+@media (max-width:600px){header{flex-direction:column;gap:6px}nav{gap:0 18px}}
+nav a[aria-current]{color:var(--ink)}
+@media (hover:hover) and (pointer:fine){nav a:hover{color:var(--ink)}}
 
-    .email {
-      margin-bottom: 30px;
-    }
+/* ---------- index: list of performances ---------- */
+.index{max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,96px) max(5vw,16px) clamp(32px,5vw,64px)}
+.index h1{margin:0 0 clamp(24px,4vw,40px);font-size:clamp(34px,5vw,52px);line-height:1.05;font-style:italic}
+.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.list a{display:grid;grid-template-columns:5ch minmax(0,1fr) minmax(0,.8fr);gap:8px 24px;align-items:baseline;padding:16px 4px;
+  border-bottom:1px solid var(--line);text-decoration:none;transition:background-color 200ms ease}
+.list .yr{font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
+.list .t{font-size:clamp(22px,2.6vw,30px);line-height:1.15;font-style:italic;text-wrap:balance}
+.list .v{font-size:14px;color:var(--soft)}
+@media (hover:hover) and (pointer:fine){.list a:hover{background:var(--ghost)}}
+@media (max-width:700px){.list a{grid-template-columns:5ch minmax(0,1fr)}.list .v{grid-column:2}}
+.peek{position:fixed;left:0;top:0;width:150px;aspect-ratio:86/108;pointer-events:none;z-index:40;opacity:0;transition:opacity 200ms var(--ease-out)}
+.peek.on{opacity:1}.peek.land{width:188px;aspect-ratio:108/86}
 
-    .links {
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
+/* ---------- a performance ---------- */
+.perf .head{text-align:center;padding:clamp(28px,4vw,48px) max(5vw,16px) 0}
+.back{font-size:14px;color:var(--soft);text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:44px}
+.perf h1{margin:4px auto 6px;max-width:22ch;font-size:clamp(34px,5vw,52px);line-height:1.05;font-style:italic;text-wrap:balance}
+.credit{margin:0 auto;max-width:60ch;color:var(--soft);font-size:15px;text-wrap:balance}
 
-    .link {
-      text-decoration: none;
-      color: inherit;
-    }
+.stage{position:relative;height:var(--sh,560px);perspective:1500px;perspective-origin:50% 40%;touch-action:pan-y;cursor:grab;outline:none;overflow:hidden}
+.stage.drag{cursor:grabbing}
+.ring{position:absolute;inset:0;transform-style:preserve-3d}
+.print{position:absolute;left:50%;top:48%;width:var(--pw);aspect-ratio:86/108;margin-left:calc(var(--pw) / -2);margin-top:calc(var(--pw) * -.628);
+  transform-style:preserve-3d;will-change:transform}
+.pin{position:absolute;inset:0;background:#d4dee3 center/100% 100% no-repeat;border-radius:1.6%/1.3%;transition:transform 160ms var(--ease-out);
+  box-shadow:0 22px 34px -22px rgba(0,0,0,.55),0 2px 5px rgba(0,0,0,.14)}
+.print.land{width:calc(var(--pw) * 1.256);aspect-ratio:108/86;margin-left:calc(var(--pw) * -.628);margin-top:calc(var(--pw) * -.5)}
+.print.on .pin:active{transform:scale(.97)}
+.film{position:absolute;overflow:hidden;background:var(--film)}
+.film img{position:absolute;display:block;max-width:none}
+.chem{position:absolute;inset:0;pointer-events:none;background-color:var(--film);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .75 0 0 0 0 .85 0 0 0 0 .88 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-    .link h2 {
-      font-size: 1em;
-      font-weight: normal;
-      margin: 0;
-    }
+.cap{text-align:center;padding:0 max(5vw,16px);margin-top:-6px}
+.count{margin:0;font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
+.hint{margin:4px 0 0;font-size:13px;color:var(--soft)}
+.desc{max-width:62ch;margin:clamp(28px,4vw,44px) auto 0;padding:0 max(5vw,16px)}
+.desc p{margin:0 0 14px}
+.desc .video{position:relative;aspect-ratio:16/9;margin:32px 0 8px;background:var(--ghost)}
+.desc .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.desc .vlink{font-size:13px;color:var(--soft)}
+.desc blockquote{margin:22px 0 22px clamp(16px,3vw,32px);font-family:"Ibarra Real Nova","Times New Roman",Times,serif;font-style:italic;font-size:clamp(20px,2.2vw,24px);line-height:1.3;text-wrap:balance}
+.todo{color:var(--soft);font-style:italic}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:transparent;cursor:pointer;font-size:14px;text-decoration:none;transition:transform 160ms var(--ease-out),background-color 200ms ease}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.4;cursor:default}
+@media (hover:hover) and (pointer:fine){.btn:not(:disabled):hover{background:var(--ghost)}}
+.chk{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--soft);min-height:44px}
+.chk input{width:18px;height:18px;accent-color:var(--accent)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.pn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;max-width:1240px;margin:clamp(40px,6vw,80px) auto 0;padding:20px max(5vw,16px) 0;border-top:1px solid var(--line)}
+.pn a{text-decoration:none;display:block;padding:8px 0}
+.pn small{display:block;font-size:13px;color:var(--soft)}
+.pn span{font-size:clamp(20px,2.4vw,26px);font-style:italic;line-height:1.15}
+.pn a:last-child{text-align:right}
 
-    .link:hover {
-      text-decoration: underline;
-    }
+/* ---------- contact ---------- */
+.page{max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,96px) max(5vw,16px) clamp(24px,4vw,48px)}
+.page h1{margin:0 0 clamp(20px,3vw,32px);font-size:clamp(34px,5vw,52px);line-height:1.05;font-style:italic}
+.page .lead{margin:0 0 4px;color:var(--soft)}
+.cvwrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(220px,340px);gap:clamp(32px,6vw,96px);align-items:start}
+.cvtext{grid-column:1;grid-row:1}
+.cvpic{grid-column:2;grid-row:1;position:sticky;top:32px;padding-top:clamp(8px,2vw,24px)}
+.bio .chem{opacity:0}
+.bio{position:relative;display:block;width:100%;aspect-ratio:86/108;padding:0;border:0;background:none;transform:rotate(1.6deg);transition:transform 300ms var(--ease-out)}
+@media (hover:hover) and (pointer:fine){.bio:hover{transform:rotate(0deg)}}
+@media (max-width:760px){.cvwrap{grid-template-columns:minmax(0,1fr)}.cvpic{grid-column:1;grid-row:1;position:static;justify-self:center;width:min(66vw,280px);padding-top:0}.cvtext{grid-row:2}}
+@media (prefers-reduced-motion:reduce){.bio{transition:none}}
+.cv h2{margin:clamp(32px,5vw,56px) 0 8px;font-size:clamp(24px,2.8vw,32px);line-height:1.1;font-style:italic}
+.cv dl{margin:0;border-top:1px solid var(--line)}
+.cv .yr{display:grid;grid-template-columns:6ch minmax(0,1fr);gap:8px 24px;padding:16px 0;border-bottom:1px solid var(--line)}
+.cv dt{font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums;padding-top:3px}
+.cv dd{margin:0}.cv dd p{margin:0 0 10px;max-width:70ch}.cv dd p:last-child{margin:0}
+.cv em,.contact em{font-family:"Ibarra Real Nova","Times New Roman",Times,serif;font-size:1.12em}
+/* instant photographs: a mosaic of developed prints; one comes forward and develops when clicked */
+.mosaic{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:clamp(20px,3vw,36px) clamp(16px,2.4vw,28px);margin-top:clamp(8px,2vw,16px)}
+.tile{position:relative;aspect-ratio:1;display:grid;place-items:center;padding:0;border:0;background:none;cursor:zoom-in}
+.tile .print{position:relative;left:auto;top:auto;margin:0;width:79.6%;transition:transform 200ms var(--ease-out)}
+.tile .print.land{width:100%}
+.tile .print .pin{box-shadow:0 10px 16px -10px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.12)}
+.tile .chem{opacity:0}
+.tile:active .print{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){.tile:hover .print{transform:translateY(-4px)}}
+.ipv{position:fixed;inset:0;z-index:60;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:16px;padding:clamp(16px,4vw,48px) clamp(16px,6vw,96px) clamp(20px,3vw,32px);
+  background:var(--bg);opacity:0;visibility:hidden;transition:opacity 250ms var(--ease-out),visibility 0s 250ms}
+.ipv.open{opacity:1;visibility:visible;transition:opacity 250ms var(--ease-out)}
+.ipstage{display:grid;place-items:center;min-height:0}
+.ipbig{position:relative;width:min(440px,72vw,calc((100svh - 220px) * .796));aspect-ratio:86/108}
+.ipbig.land{width:min(640px,88vw,calc((100svh - 220px) * 1.256));aspect-ratio:108/86}
+.ipv .bar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.ipv .lbcap{margin:0}
+@media (prefers-reduced-motion:reduce){.tile .print,.ipv{transition:none}}
+/* exhibition views: a plain archive, no Instax effects */
+.ev{display:grid;gap:clamp(48px,7vw,96px);margin-top:clamp(8px,2vw,16px)}
+.evg{margin:0}
+.evr{display:grid;gap:12px;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.evg[data-n="1"] .evr{max-width:min(100%,880px)}
+.evr button{display:block;padding:0;border:0;background:var(--ghost);cursor:zoom-in;aspect-ratio:3/2;overflow:hidden}
+.evr img{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 300ms var(--ease-out)}
+.evr img.ok{opacity:1}
+@media (hover:hover) and (pointer:fine){.evr button:hover img.ok{opacity:.9}}
+.evg figcaption,.lbcap{margin-top:12px;font-size:14px;line-height:1.5;color:var(--soft)}
+.evg figcaption em,.lbcap em{font-style:italic;color:var(--ink)}
+@media (max-width:700px){.evr{grid-template-columns:minmax(0,1fr)}}
+.lb{position:fixed;inset:0;z-index:60;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px;padding:clamp(16px,4vw,48px) clamp(16px,6vw,96px) clamp(20px,3vw,32px);
+  background:var(--bg);opacity:0;visibility:hidden;transition:opacity 200ms var(--ease-out),visibility 0s 200ms;touch-action:pan-y}
+.lb.open{opacity:1;visibility:visible;transition:opacity 200ms var(--ease-out)}
+.lb .fr{position:relative;min-height:0}
+.lb .fr img{position:absolute;inset:0;margin:auto;max-width:100%;max-height:100%;width:auto;height:auto;display:block;transition:opacity 200ms var(--ease-out)}
+.lb .bar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.lb .lbcap{margin:0;max-width:62ch}
+.lb .ctl{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.evr img,.lb,.lb .fr img{transition:none}}
+.contact{max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,96px) max(5vw,16px) 24px}
+.contact h2{margin:0 0 10px;font-size:clamp(28px,3.4vw,40px);line-height:1.05;font-style:italic}
+.contact p{margin:0 0 8px;max-width:62ch}
+.mail{font-size:clamp(20px,2.6vw,28px)}
+footer{padding:0 max(5vw,16px) 32px;color:var(--soft);font-size:13px;max-width:1240px;margin:0 auto}
 
-    .gif-container {
-      display: flex;
-      justify-content: center;
-      margin: 100px 0 0;
-    }
+/* ---------- detail ---------- */
+.detail{position:fixed;inset:0;z-index:50;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:clamp(20px,5vw,80px);
+  padding:clamp(20px,5vw,72px);background:var(--bg);opacity:0;visibility:hidden;transition:opacity 250ms var(--ease-out),visibility 0s 250ms;overflow-y:auto;overscroll-behavior:contain}
+.detail.open{opacity:1;visibility:visible;transition:opacity 250ms var(--ease-out)}
+.dtext{max-width:440px;justify-self:end}
+.dtext h2{margin:0 0 18px;font-size:clamp(36px,5vw,56px);line-height:1.02;font-style:italic;text-wrap:balance}
+.dtext dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 24px;font-size:14px;font-variant-numeric:tabular-nums}
+.dtext dt{color:var(--soft)}.dtext dd{margin:0}
+.dnav{display:flex;gap:10px;flex-wrap:wrap}
+.big{position:relative;justify-self:start;width:min(440px,40vw,62svh);aspect-ratio:86/108}
+.big.land{width:min(560px,46vw,62svh);aspect-ratio:108/86}
+.big .pin{transition:none}
+.x{position:absolute;top:16px;right:16px;width:44px;height:44px;border:0;border-radius:50%;background:var(--ghost);cursor:pointer;display:grid;place-items:center}
+.x svg,.btn svg,.back svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.6;fill:none}
+@media (max-width:760px){.detail{grid-template-columns:minmax(0,1fr);align-content:start;padding-top:72px}.big{justify-self:center;width:min(78vw,340px)}.big.land{width:min(92vw,440px)}.dtext{justify-self:stretch;order:2}}
 
-    .gif {
-      max-width: 100%;
-      height: auto;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 4s ease, transform 4s ease;
-    }
-
-    .gif.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .spacer {
-      height: 90px; /* espace ≈ 3 lignes */
-    }
-
-    .marquee-container {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .marquee {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-text 120s linear infinite;
-    }
-
-    @keyframes scroll-text {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
-    }
-  </style>
+@media (prefers-reduced-motion:reduce){.pin,.btn,.peek{transition:none}}
+</style>
 </head>
 <body>
+<header>
+  <a class="name serif" href="#" id="home">Teddy Coste</a>
+  <nav><a href="#" id="nav-home">Selected Performances</a><a href="#instant-photographs" id="nav-instant-photographs">Instant Photographs</a><a href="#exhibition-views" id="nav-exhibition-views">Exhibition Views</a><a href="#cv" id="nav-cv">CV</a></nav>
+</header>
 
-  <h1>Teddy Coste</h1>
-  <div class="email">teddycoste1@gmail.com</div>
+<main>
+  <section class="index" id="index" aria-labelledby="ih">
+    <h1 class="serif" id="ih">Selected Performances</h1>
+    <ul class="list" id="list"></ul>
+  </section>
 
-  <div class="links">
-    <a href="work.html" class="link"><h2>SELECTED PERFORMANCES</h2></a>
-    <a href="objects.html" class="link"><h2>OBJECTS / INSTALLATIONS</h2></a>
-    <a href="image.html" class="link"><h2>IMAGE BASED / VIDEOS</h2></a>
-    <a href="texts.html" class="link"><h2>TEXTS / PUBLICATIONS</h2></a>
-    <a href="cv.html" class="link"><h2>CV</h2></a>
-  </div>
+  <section class="perf" id="perf" hidden aria-labelledby="ptitle">
+    <div class="head">
+      <a class="back" href="#"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg>All performances</a>
+      <h1 class="serif" id="ptitle"></h1>
+      <p class="credit" id="pcredit"></p>
+    </div>
+    <div class="stage" id="stage" tabindex="0" role="region" aria-roledescription="carousel" aria-label="Prints, use arrow keys to browse, Enter to open">
+      <div class="ring" id="ring"></div>
+    </div>
+    <div class="cap">
+      <p class="count" id="count" aria-live="polite"></p>
+    </div>
+    <div class="desc" id="desc"></div>
+    <nav class="pn" id="pn" aria-label="Other performances"></nav>
+  </section>
 
-  <!-- GIF centré -->
-  <div class="gif-container">
-    <img src="images/cowboy.gif" alt="cowboy" class="gif" id="gif">
-  </div>
+  <section class="page" id="page-instant" hidden aria-labelledby="iph">
+    <h1 class="serif" id="iph">Instant Photographs</h1>
+    <div class="mosaic" id="mosaic"></div>
+  </section>
 
-  <!-- Marquee en dessous du GIF (3 lignes) -->
-  <div class="spacer"></div>
-  <div class="marquee-container">
-    <div class="marquee">
-      FRAGMENTATION OF SELF A TEXT HORIZONTAL IN A DIALOGUE A TEXT VERTICAL MASCULINE TIES A TEXT SWITCHING THE LISTENING A TEXT YOU DON’T QUESTION IT A TEXT CARTOONY VIBE A TEXT CINEMATIC TROPES A TEXT SHALLOWNESS OF THE STAGE A TEXT NEW STAGE IN LIFE A TEXT SOMEHOW EASY A TEXT HELPING WITH THE HEAVINESS A TEXT ONE HUNDRED PERCENT COMFORTABLE A TEXT RUDE WAYS TO ADDRESS A TEXT DO I STILL LIKE BEING HERE A TEXT FAST DECISION MAKING A TEXT QUALITY STAGED A TEXT MAYBE BECAUSE A TEXT NOT OVERLY POLISHED A TEXT THE SHAVING OVERRULE A TEXT BASIC WAYS OF DEPICTING A TEXT WHAT DID I JUST READ AGAIN A TEXT FUZZY DREAMLIKE A TEXT EFFICIENCY OF NEWNESS A TEXT DO MORE WITH THE LIGHT A TEXT WAITING FOR DISAPPOINTMENT A TEXT PUSH IT MORE A TEXT NO CHAIR TO SIT A TEXT THE DOG IS SADNESS A TEXT BARELY HOLDING STITCHES A TEXT REPEAT SOME LINES A TEXT THE DECAY OF FLOWERS A TEXT VULNERABLE BECOMES LOVABLE A TEXT LOVABLE PATHETIC A TEXT REPETITION IS KEY A TEXT MELANCHOLIC LATE NIGHT SHOW A TEXT SUAVE VOICES A TEXT IT’S WARM IN HERE A TEXT SMOOTH VOICES A TEXT SADNESS OF A MIME A TEXT DRAMA IS ON THE SELF A TEXT ENJOY THE ECHO A TEXT PERFORMANCE AS BINDER A TEXT WHAT ARE WE DOING TO HIM A TEXT THE KISSING PART REALLY STRONG A TEXT SHAPESHIFTING A TEXT BEHIND THE FUZZY LAND A TEXT OPACITY QUESTIONABLY PRETENTIOUS A TEXT HANDCRAFTED FROM THE STUDIO A TEXT ACCESS TO METHOD A TEXT VERY TV A TEXT POURING COFFEE A TEXT NOT MOVING MUCH A TEXT SLIGHTLY IMPOSING A TEXT PATTERN ARTISTS A TEXT WOULD IT DAMAGE TO SEE IT TWICE A TEXT I’M NOT SURE A TEXT PUPPETS HANDCRAFTED A TEXT ACCESS TO METHOD A TEXT NICE CONTRAST A TEXT TRAVELING THROUGH TIME A TEXT CARRY EXPECTATIONS WITH YOURSELF A TEXT PRACTICING ON A DOG A TEXT JUST ENOUGH A TEXT FAKE JOB A TEXT SNAP TO THE NEXT A TEXT YOU DON’T QUESTION IT A TEXT IT COULD BE ONE HOURS AND A HALF LONG A TEXT WHAT DO WE NEED A TEXT INDUSTRIAL SURVEILLANCE A TEXT CAN BE STRETCHED A TEXT HAVE BEEN STRETCHED A TEXT MAKING IT EASILY CONFUSABLE A TEXT WORKSHOPPING ON A DUMMY A TEXT NEXT STEP JOIN US A TEXT KEEPING ROOTS PROHIBITIVE A TEXT FRANKLY SPEAKING NOT NICE A TEXT PURGE THE PAST A TEXT STUPID CLOWN JOKE A TEXT FOLLOW THE LEAD A TEXT READING WITHOUT NEEDING A TEXT GIVE YOU THE HAND A TEXT WITHOUT SCULPTURE A TEXT CAN BE VERY HEAVY A TEXT MEDIATING THE EXPERIENCE OF SOMEONE ELSE A TEXT CONFRONT UNCOMFORTABLE A TEXT UPSTAIRS SOME TRICKS A TEXT WALK INTO A ROOM A TEXT THIS COULD FIT A TEXT IT DOESN’T MATTER WHERE WE ARE A TEXT I’D LIKE TO SEE MORE A TEXT IT SEDUCES YOU TO COME BACK A TEXT BORDER AROUND THE SCENE A TEXT SOFT FOCUS A TEXT GENUINE PURPOSE A TEXT TALKY WALKY A TEXT LOSELY MADE A TEXT BLEND INTO IT A TEXT I DON’T KNOW IF THIS IT APPROPRIATE A TEXT HAD TO COOL DOWN A TEXT GIVES SOME IDEAS A TEXT BUT AT THE SAME TIME A TEXT IT’S MOODY A TEXT DO INITIATE A TEXT THE STAGES BLEEDS IN OTHER FORMS A TEXT ASSEMBLED QUICKLY A TEXT THE CRYING EYES THE FLOPPY SKIN A TEXT CONTRADICTORY FORCES A TEXT MAKING AND DRESSING A TEXT STRONG SENSE OF ECONOMY A TEXT UNBALANCED QUALITY A TEXT MY HAND IS JUST DOING LIKE THIS A TEXT EXPERIENCE IN SEVERAL ROUNDS A TEXT VOICES SLIGHTLY DIFFICULT TO UNDERSTAND A TEXT EVERYTHING ON A SUITCASE A TEXT DON’T TAKE YOURSELF TOO SERIOUSLY A TEXT PAYS ATTENTION TO DETAILS A TEXT HANDY WAROL WRITTEN IN TEDDY’S ACCENT A TEXT IT COULD HAVE BEEN LONGER A TEXT HOW DO YOU GET WALKED OUT A TEXT IMAGINE TODAY BEING FILMED A TEXT ADD ANOTHER STEP A TEXT FLIPPING THINGS HELP TO CONCENTRATE A TEXT SMILING POLITELY A TEXT WAITING ROOM WAITING ROOM WAITING ROOM A TEXT YOU MISS SO MANY THINGS A TEXT BASSET BLOOD HOUNDS DOES IT MATTER A TEXT MAYBE I JUST COULDN’T HEAR IT SO WELL A TEXT I DO PERHAPS AGREE A TEXT SIGNS ON THE WALL A TEXT WRITING IS A BACKBONE A TEXT YOU CAN DEPART FROM LANGUAGE A TEXT SCRIPT TIME AND PERSPECTIVE A TEXT WORDS MELTED AWAY A TEXT HOW DID YOU GET THE IDEA TO DO THAT A TEXT I DON’T NEED THE WORD DETECTIVE A TEXT I JUST WANT TO KNOW ONE THING A TEXT I WOULD VISIT IT TWICE A TEXT AND THEN LIKE A TEXT PERMIT SOME MISTAKES A TEXT FRAGMENTS ARE ENOUGH A TEXT BLURRED IMAGES BRINGS PLEASURE A TEXT I FORGOT SOME PASSAGES A TEXT NIBBLE THE BACKBONE A TEXT MARK WAYS OF APPROACHING A TEXT ON SUBCULTURAL YOU DON’T NEED TO ATTACH A TEXT UNFAMILIAR WITH FRENCH CLASS A TEXT A MOIST TO MOVE A TEXT SEXUALITY IGNORES CLASSES A TEXT LOOK IT IN THE TOTEM A TEXT SELF HUMILIATION FOR THE PURPOSE OF COMEDY A TEXT KIND OF TRUE A TEXT AS LONG AS WE SHIFT IN A PLAYFUL WAY
+  <section class="page" id="page-exhibition-views" hidden aria-labelledby="evh">
+    <h1 class="serif" id="evh">Exhibition Views</h1>
+    <div class="ev" id="ev"></div>
+  </section>
+
+  <section class="page cv" id="page-cv" hidden aria-labelledby="cvh">
+   <div class="cvwrap">
+    <aside class="cvpic">
+      <div class="bio" id="bio"></div>
+    </aside>
+    <div class="cvtext">
+    <h1 class="serif" id="cvh">CV</h1>
+    <p class="lead">Born in Bergerac, France, 1992</p>
+    <p class="lead">Lives and works in Paris</p>
+    <h2 class="serif">Selected performances &amp; exhibitions</h2>
+    <dl>
+      <div class="yr"><dt>2026</dt><dd>
+        <p><em>Alphabestiaire</em>, reading for the launch of the book, following the project <em>Mi-Monstre, Mi-Livre</em>, After 8 Books, Paris, FR</p></dd></div>
+      <div class="yr"><dt>2025</dt><dd>
+        <p><em>Die Ilse ist Weg</em>, group exhibition, organized by Rallou Panagiotou, BOARDROOM, Glasgow, UK</p>
+        <p><em>Star Sanguine</em>, group exhibition, organized by Cocotte &amp; Théo Robine-Langlois, L'étoile Rouge, Paris, FR</p>
+        <p><em>Référentiel Bondissant Aléatoire</em>, performance for L’Académie des Mutantes, curated by Cédric Fauq, CAPC Musée d’Art Contemporain de Bordeaux, FR</p></dd></div>
+      <div class="yr"><dt>2024</dt><dd>
+        <p><em>Groom Service</em>, theater play co-written and performed with Timothée Trouche, After 8 Books, Paris, FR</p>
+        <p><em>Groom Service</em> (Radio Version), theater play co-written and performed with Timothée Trouche, FRAC Sud – Cité de l'art contemporain, Marseille, FR</p></dd></div>
+      <div class="yr"><dt>2023</dt><dd>
+        <p><em>The White Hair</em>, performance for the launch of the CD <em>Labor and Love</em>, invited by Dépense Défensive, Treize, Paris, FR</p>
+        <p><em>Conduits and Credits</em>, group exhibition curated by Matheline Marmy, Cité Internationale des Arts, Paris, FR</p></dd></div>
+      <div class="yr"><dt>2022</dt><dd>
+        <p><em>Maybe I’m not the person that I never wanted to be</em> (revised edition, 2022. Malmö mix), radiophonic fiction with Thomas Boutoux for <em>What’s the Offer</em>, curated by Elena Tzotzi, Signal Center for Contemporary Art, Malmö, SE</p>
+        <p><em>Showtime</em>, performance with Elsa Prudent, Thelia, and Harilay Rabenjamina, curated by Elsa Vettier, Maison Populaire, Montreuil, FR</p>
+        <p><em>The Junction</em>, performance, curated by Caitlin Merrett King, Lunchtime Gallery, Glasgow, UK</p>
+        <p><em>A Guest of Honour</em>, performer, singer, actor in a four-act opera by Harilay Rabenjamina, Auto Italia, London, UK</p></dd></div>
+      <div class="yr"><dt>2020</dt><dd>
+        <p><em>Horizontal also known as The Pattern Artist</em>, radio broadcast, Radiophrenia, Glasgow, UK</p></dd></div>
+      <div class="yr"><dt>2019</dt><dd>
+        <p><em>Performing Monkey</em>, performance for <em>Pulp Puppets</em>, Twenty-One, Focal Point Gallery, Southend-on-Sea, UK</p>
+        <p><em>TeddyTV</em> (video/installation) &amp; <em>Meeting Robert 2.0</em>, performance for <em>MIDNIGHT SUNBURN</em>, Het Nieuwe Instituut, Rotterdam, NL</p>
+        <p><em>Meeting Robert 1.0</em>, performance for <em>Argento e Oro</em>, curated by How To Show Up, San Serriffe, Amsterdam, NL</p>
+        <p><em>Our Pink Depot: The Gay Underground</em>, performer/dancer for Nina Wakeford, <em>Art on the Underground</em>, Matt’s Gallery, London, UK</p></dd></div>
+      <div class="yr"><dt>2018</dt><dd>
+        <p><em>Collateral</em>, performance for <em>Accidentally Sonic</em>, curated by Jan Verwoert, Swimming Pool, Sofia, BG</p>
+        <p><em>Vampire Poem</em>, performance for <em>Textwork live!</em>, Fondation d’entreprise Ricard, Montevideo, Marseille, FR</p>
+        <p><em>Meeting Tony</em>, performance in collaboration with Harilay Rabenjamina, Peach, Rotterdam, NL</p></dd></div>
+      <div class="yr"><dt>2017</dt><dd>
+        <p><em>La ruse la plus évidente</em>, performance for <em>Subpoema</em>, curated by Pascaline Morincôme &amp; Mathis Collins, Treize, Paris, FR</p>
+        <p><em>Dress for the job you want, not the one you have</em>, performance-lecture, invited by Treize for <em>The Cheapest University</em> at Paris Internationale, Paris, FR</p>
+        <p><em>The Most Obvious Trick</em>, performance for <em>ALL: COLLECTED VOICES</em>, curated by Helena Papadopoulos &amp; Thomas Boutoux, Radio Athènes, Athens, GR</p>
+        <p><em>Experimental Educational Protocol</em>, invited artist, project by Angelo Plessas, part of Documenta 14, Delphi and Athens, GR</p></dd></div>
+      <div class="yr"><dt>2016</dt><dd>
+        <p><em>Maybe I’m not the person that I never wanted to be</em>, radiophonic fiction with Thomas Boutoux for <em>Sending a Signal out in the Ether</em>, curated by Elena Tzotzi, Radio Athènes, Athens, GR</p>
+        <p><em>From soft to hard and from hard to soft</em>, performer for a piece by Yorgos Sapountzis, 3 137, Athens, GR</p></dd></div>
+    </dl>
+    </div>
+   </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <h2 class="serif">Contact</h2>
+    <p class="mail"><a href="mailto:teddycoste1@gmail.com">teddycoste1@gmail.com</a></p>
+  </section>
+</main>
+<footer id="foot"></footer>
+
+<div class="peek" id="peek" aria-hidden="true"></div>
+
+<div class="ipv" id="ipv" role="dialog" aria-modal="true" aria-label="Instant photograph">
+  <div class="ipstage"><div class="ipbig" id="ipbig"></div></div>
+  <div class="bar">
+    <p class="lbcap" id="ipcap"></p>
+    <div class="ctl">
+      <button class="btn" id="ipprev" aria-label="Previous photograph"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg></button>
+      <span id="ipn"></span>
+      <button class="btn" id="ipnext" aria-label="Next photograph"><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="btn" id="ipx" aria-label="Close"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
     </div>
   </div>
+</div>
 
-  <script>
-    const gif = document.getElementById('gif');
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Exhibition view">
+  <div class="fr"><img id="lbimg" alt=""></div>
+  <div class="bar">
+    <p class="lbcap" id="lbcap"></p>
+    <div class="ctl">
+      <button class="btn" id="lbprev" aria-label="Previous image"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg></button>
+      <span id="lbn"></span>
+      <button class="btn" id="lbnext" aria-label="Next image"><svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button>
+      <button class="btn" id="lbx" aria-label="Close"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+    </div>
+  </div>
+</div>
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          gif.classList.add('visible');
-          observer.unobserve(gif);
-        }
-      });
-    });
+<div class="detail" id="detail" role="dialog" aria-modal="true" aria-labelledby="dtitle">
+  <button class="x" id="close" aria-label="Close"><svg viewBox="0 0 16 16"><path d="M3 3l10 10M13 3 3 13"/></svg></button>
+  <div class="dtext">
+    <h2 class="serif" id="dtitle"></h2>
+    <dl id="dl"></dl>
+    <div class="dnav">
+      <button class="btn" id="prev"><svg viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg>Previous</button>
+      <button class="btn" id="next">Next<svg viewBox="0 0 16 16"><path d="m6 3 5 5-5 5"/></svg></button>
+    </div>
+  </div>
+  <div class="big" id="big"></div>
+</div>
 
-    observer.observe(gif);
-  </script>
+<script>
+{
+const $=s=>document.getElementById(s);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+
+/* ---------- the archive ----------
+   One entry per performance, newest first. Captions come from teddycoste.com.
+   prints: the scan names in /prints, in order. Each ends in a letter for its orientation:
+   L = landscape (thick border at the bottom), P = portrait with the thick border on the right, Q = portrait with it on the left.
+   desc: the performance text; leave it empty ('') until it is written. */
+const P=[
+ {slug:'alphabestiaire',title:'Alphabestiaire',year:2026,credit:'Reading · After 8 Books',prints:'ALPHA:L ALPHA1:Q',
+  desc:'For the launch of Alphabestiaire at After 8 Books, I read a story of my own.\n\nUnder the table at his grandmother’s Sunday lunch, a boy waits for the caramelised popcorn and tries not to be noticed: one false move, and his uncle will send him to the pigs. Years later, a young ceramicist on a rugby scholarship in Japan climbs a mountain road to a silent brutalist residence, where a curator is preparing an exhibition on Roland Barthes. Before he leaves, she has one piece of advice: watch out for wild boars. Some childhood fears never quite let go.\n\nThe book follows the project “Mi-Monstre, Mi-Livre”, organised by After 8 Books and Six Chairs Books in Paris in 2024 for the Lithuanian Season in France. It takes up and extends the graphic and typographic experiments developed over several workshops. Alphabestiaire brings together texts by figures of the Lithuanian scene, such as the artist Anastasia Sosunova, recently shown at the Palais de Tokyo and the Centre Pompidou, and the writer Jurga Tumasonytė, alongside texts by young French artists: Ethan Assouline, Teddy Coste and Théo Robine-Langlois. It also includes reissued texts by authors connected to France and Lithuania, Oscar Milosz and Prosper Mérimée, and an essay by the researcher Akvilė Kabašinskaitė on the figure of Baltrušaitis.'},
+ {slug:'referentiel-bondissant-aleatoire',title:'Référentiel Bondissant Aléatoire',year:2025,credit:"Performance · CAPC musée d'art contemporain de Bordeaux, W Pantin",prints:'RBA:L RBA1:P RBA2:P RBA3:P',
+  desc:'Random Bouncing Reference Point is a solo performance combining autobiographical narrative, performed lecture, and conceptual art devices.\n\nThe project takes the form of a monologue embodied by a fictional character. Alternating between direct speech, object manipulation, and video projection, the performance interrogates the conditions of visibility of artworks when they are immaterial, their transport, reception, and disappearance. It draws on historical references to conceptual art and replays some of its strategies, linking them to popular and personal imagination.\n\nConceived for a light frontal setup (voice, props, video), the performance articulates several levels of reading: autofiction, offbeat humor, and reflection on artistic practice.\n\nRugby becomes a central metaphor: that of a game structured around an unstable object – the oval ball – whose unpredictable trajectories embody the logics of displacement, transmission, and randomness that traverse the entire work.'},
+ {slug:'i-love-teddy',title:'I ♥ Teddy',year:2025,credit:"Performance · L'étoile Rouge",prints:'ILT:L ILT1:P ILT2:L',
+  desc:'I talk to a bear made of chewing gum who shares my name. Through our play on the word “teddy”, I turn over the parts of myself I keep chewing and chewing again: my contradictions, my many identities. The pliable material becomes a mirror of who I am – or who I could be.'},
+ {slug:'groom-service',title:'Groom Service',year:2024,credit:"Theater play in collaboration with Timothée Trouche, After 8 Books · Radio Drama, Frac Sud - Cité de l'art contemporain",where:"After 8 Books · Frac Sud - Cité de l'art contemporain",prints:'GS:P GS1:L GS2:L',
+  desc:'Groom Service is a two-hander co-written and performed with Timothée Trouche. In a hotel where nothing ever happens, a head butler who is forbidden to love – and loves anyway, in secret – spends his nights bullying his groom and pining for the “big client”, booked for a single night.\n\nThe groom has the spleen. He was not always a groom: he was once a conceptual artist of re-photography and appropriation, dressing shop-window mannequins as television game-show contestants. When a museum turned the tables and appropriated his work, he decided to go beyond appropriation, all the way to absorption. He kidnapped the hotel’s real groom and took his place.\n\nThrough absurd dialogue, mimicry and song, the play blurs master and servant, artist and role, original and copy, until the two men flee the hotel for the one place where likeness is everything: the Musée Grévin, the wax museum.'},
+ {slug:'the-white-hair',title:'The White Hair',year:2023,credit:'Performance · Treize',prints:'TWH:L TWH1:L TWH2:L',
+  desc:'The White Hair is a monologue performed at Treize for the launch of the CD Labor and Love, at the invitation of Dépense Défensive. It opens with a line from The Sure Thing, a John Cusack comedy released in France as Garçon choc pour nana chic:\n\n> How would you like to have a sexual encounter so intense it could conceivably change your political views?\n\nMost of us would say no. Ask instead about changing someone else’s views, and most of us would say yes.\n\nFrom there, the performance asks what truly makes us want to change. For the narrator, the answer comes in the mirror: a first white hair. He plucks it out in a panic, and the hair starts to talk – about regret, and about how the things we cannot undo end up written on our faces.\n\nLooking back at his early work – at 21, a conceptual artist who wrote his name on sheets of A4 paper and threw them on the floor – he diagnoses himself as a megalomaniac in need of remaking, and sets out to accept the life of a loser. What does a loser belong to? What is a loser good for? He is trying to find out, as soon as he can stop parodying himself.'},
+ {slug:'maybe-im-not-the-person',title:'Maybe I’m not the person that I never wanted to be (revised edition, 2022. Malmö mix)',short:'Maybe I’m not the person that I never wanted to be',year:2022,credit:'Radio Drama in collaboration with Thomas Boutoux · Signal Center for Contemporary Art',prints:'MIN:P MIN2:L',
+  desc:'– How to remember an era marked by an obsession with amnesia, attention deficit, lost and recovered memory?\n– Wait, what era are you talking about exactly?\n– The 1990s, pardi!\n– Oh… really? I thought you were talking about today…\n– I’m going to tell you the story of how it all happened. The 90s were like nothing but a decade when it started. It was nothing, a blank sheet. The end of history.\n– Stop. Who said that?'},
+ {slug:'showtime',title:'Showtime',year:2022,credit:'Performance · Maison Populaire',prints:'S:L S1:L',
+  desc:'I was invited by Harilay Rabenjamina to perform with the artists Elsa Prudent and Thelia. Harilay’s idea was to build a show from fragments of our respective performances, in which we debate the question of our own visibility. The whole piece follows the rhythm of Harilay’s sound work: loops of distorted pop songs.\n\nMy part opened with Horizontal, an excerpt from The Junction that I translated into French: the monologue of someone who lives horizontally, surfing the surface of things and digressing rather than settling, who dreams of becoming a “pattern artist” but has yet to find the right loop – like the snake in the old Nokia game, which has to keep eating before it can close the circle.\n\n> As if my life were a sampler, and my practice a loop to close at the right moment.\n\nI also wrote a new segment, recorded and arranged over an ABBA song that was itself looped and slowed down: a soliloquy about being able, or unable, to appreciate a moment while living it. As Harilay and Elsa dance, I photograph them, and the song’s line about wanting to freeze the picture keeps returning under the click of the camera and the flash.\n\nShowtime is part of The Artificial Kid, a series of exhibitions and performances initiated by the curator Elsa Vettier.'},
+ {slug:'the-junction',title:'The Junction',year:2022,credit:'Performance · Lunchtime Gallery',prints:'TJ:L TJ1:L TJ2:L',
+  desc:'I moved to Glasgow in 2020, during the pandemic, at the start of the second lockdown. With no chance of performing for some time and an urgent need for work, I became a bicycle courier for Deliveroo. The pandemic hit Glasgow’s art scene hard, and for two years I looked, without success, for another source of income. I realised that if I wasn’t living “the artistic life”, there was no point in staying, isolated and cold, delivering food. Still, I wanted to show my practice to the city before leaving.\n\nI wrote The Junction by extending Horizontal, a script from 2017: an abstract text about living “horizontally” and looking for patterns in one’s practice in order to become a pattern artist. Performed in my Deliveroo uniform, with the insulated bag on my back, it speaks as much about my life as an artist as about my work as a courier. The soundtrack played from the same Bluetooth speaker I had carried on my deliveries for two years.\n\nThe performance begins indoors, among the bookshelves, then leads the audience out into the street, the courier’s real workplace. There, I announce that I am quitting my job to become a painter. The delivery bag is set down on a stool, the uniform gives way to a long coat, and an action painting sequence, echoing the text, produces a canvas that ends up hanging on the railings.\n\nA publication with the script and texts by Phoebe Eccles and Caitlin Merrett King was published by Good Press. Kate Morgan reviewed the performance in Nothing Personal Magazine (autumn 2022).'},
+ {slug:'meeting-robert',title:'Meeting Robert',year:2019,credit:'Performance · Het Nieuwe Instituut',prints:'MEET:L MEET1:Q MEET2:L',video:'tWvilF2lAYc',
+  desc:'Meeting Robert occupies a particular place in my practice: it was the first time I wrote a script without copy-pasting or plagiarising.\n\nI play a character obsessed with celebrity and his own career, who meets a vampire named Robert. A megalomaniac, he embraces the cult of innovation and an attention economy built on cruelty, while asking himself existential questions. At the heart of it all is his big idea: to 3D print a 3D printer, a plan he pitches to the audience on hand-drawn sheets.\n\nThe set and costumes change as the performance unfolds: a long black coat, a clothes rack, a large black disc hanging over the stage. I interact with my props and embody Robert through a mask. Robert the vampire is inspired by the French poet Robert de Montesquiou, and the rap lyrics I perform are drawn from his poems.\n\nSeveral versions of Meeting Robert have been performed: the first in 2018 at Montevideo, Marseille, for Textwork, with the support of the Fondation d’entreprise Ricard; the second in 2019 at San Serriffe, Amsterdam, invited by How To Show Up? for Argento e Oro; and the latest at Het Nieuwe Instituut, Rotterdam, for MIDNIGHT SUNBURN.'},
+ {slug:'the-half-time',title:'The Half Time',year:2019,credit:'Performance · Het Nieuwe Instituut',prints:'TH:P TH1:L',
+  desc:'The Half Time is a motivational speech gone adrift. Coach Teddy, in a great jacket, stands on a floating platform and tries to keep his balance while delivering his halftime talk to the team: they are not losing, but they are not winning either.\n\nThe pep talk soon slides into confession. He is here, he admits, because he once nurtured a fantasy about the ideal physical state for literary production, and only now understands that it is an inhuman condition. His game plan is love: play with love, and any place is decent enough. Against the old-fashioned, bourgeois game of the dandy and the petit maître, he chants his slogan:\n\n> Distinction equals extinction!\n\nStumbling through a borrowed passage of Samuel Beckett’s Worstward Ho, the speech ends the way every halftime talk does: hands joined, a count to three, and a call to show some love.'},
+ {slug:'collateral',title:'Collateral',year:2018,credit:'Performance · Swimming Pool',prints:'C:L C1:L C2:L',
+  desc:'During my studies at the Piet Zwart Institute, our class travelled to Sofia with 72 hours to create an event. I had done my research: the plan was to visit a flea market in the basement of a church and invent stories about the objects I found there. On the first day, I discovered that the market had closed for good.\n\nSo I looked for a sign of destiny – literally. I read every sign I could find. Most were in Cyrillic and meant nothing to me, but every one in English became an instruction to follow: billboards, shop names, T-shirt slogans, most of them urging me to change my life. And everywhere, the imagery of the secret agent: the KGB, Johnny English, 007. I decided to become a spy.\n\nI dyed my hair to be unrecognisable and set out to gather information, any information at all. I took long walks through the city, a spy with no mission other than to pass on whatever I gleaned.\n\nI disclosed it all in a performance at Swimming Pool, for Accidentally Sonic, curated by Jan Verwoert, folding in the process of becoming a spy: how I infiltrated places, why I chose my costume, the paranoia of being spotted. Along the way, the spy’s life began to look a lot like an artist’s: travelling, mapping a city by the places that might hold something interesting, brief romances in a life unsuited to lasting ones, an existence inseparable from the work, a constant awareness of social codes and etiquette.'},
+ {slug:'meeting-tony',title:'Meeting Tony',year:2018,credit:'Performance in collaboration with Harilay Rabenjamina · Peach Rotterdam',prints:'MT:L MT1:L MT2:L',
+  desc:'Meeting Tony took place in an apartment. Written with Harilay Rabenjamina, it brings together three characters: Harilay Rabenjamina, Teddy Coste, and their friend Tony Charlois, who happens to be a sculpture.\n\nHarilay and Teddy begin by politely introducing themselves, then turn to Tony: his depression, his style. The conversation grows tense as they try to describe who their friend Tony really is.\n\nThe piece unfolds as a musical, in which Teddy and Harilay sing and dance about friendship, style, shame, electronic music, empathy and happiness.\n\nMeeting Tony was performed at PEACH, Rotterdam, at the invitation of Ghislain Amar.'},
+ {slug:'three-privates',title:'Three Privates',year:2017,credit:'Performance starring K. Cameron & G. Nesbitt · Piet Zwart Institute',prints:'3P:L 3P1:L 3P2:Q',
+  desc:'Three Privates casts Katharina Cameron, George Nesbitt and me as three private detectives. In a film noir office lit by blue-green neon, with coloured fragments scattered across the floor, they share the tricks of a strange trade: telling clients they have been betrayed.\n\nToday’s client is a basset hound. With studied, almost mechanical courtesy, the detectives walk him through the stages every relationship goes through, spelled out on a poster:\n\n> Good, better, best, bested.\n\nTheir advice is to forget. A video tells a story from my grandfather’s farm: a cow whose calves were sold while she was out in the meadow went mad with grief, smashed through the cowshed doors and charged through the village, leaving one question behind – how long does it take to forget? Two days, the detectives answer. Don’t make a fuss for the next 48 hours.\n\nBetrayal, they suggest, might even be a liberation: a release from routine, a chance to change, perhaps to become one of them.'},
+ {slug:'the-most-obvious-trick',title:'The Most Obvious Trick',year:2017,credit:'Performance · Radio Athènes',prints:'TMOT:L TMOT1:L',
+  desc:'The Most Obvious Trick grew out of several methods of writing I developed, each connected in its own way to paraphrasing, translating, miscopying, misremembering, misunderstanding and simplifying. Together they form the backbone of the performance, combined into a polyphonic script.\n\nThe voice drifts from caution about the weather to love, failed romance and the making of an artist. Borrowed lines, half-remembered quotes and confessions slip into one another until it becomes hard to tell who is speaking. Along the way, one image gives the piece its title:\n\n> In an environment where no sympathy prevails, magic never works, only the most obvious tricks do.\n\nAt its centre lies a tricky secret joke that I can’t spoil.\n\nThe Most Obvious Trick was performed at Radio Athènes, Athens, for ALL: COLLECTED VOICES, curated by Helena Papadopoulos and Thomas Boutoux.'},
+];
+/* Instant Photographs: one fan of Instax, no performance attached. Same codes as above; files in /instant */
+const IP={slug:'instant-photographs',title:'Instant Photographs',year:'',credit:'',dir:'instant',solo:true,desc:'',
+  prints:'perso:P untitled-3:P goose1:P eye:L JC:P lovers:P untitled-3-2:Q pig:L RB:P untitled-3-3-3:P goose:P untitled-3-4:P untitled-3-3:P untitled-3-2-2:P'};
+/* photo window inside an Instax Wide print, in % of the print, with a little bleed */
+const WINS={P:{l:9.15,t:4.3,w:72.1,h:91.6},Q:{l:19,t:4.3,w:72.1,h:91.6},L:{l:4.2,t:8.4,w:91.3,h:72.8}};
+const cache={};
+function prints(p){
+  return cache[p.slug]||(cache[p.slug]=p.prints.trim().split(/\s+/).map(x=>{const [f,o]=x.split(':');
+    return{src:`${p.dir||'prints'}/${f}.jpg`,o:o||'L',win:WINS[o||'L']}}));
+}
+const total=p=>prints(p).length;
+const venues=p=>(p.credit.split(' · ').slice(1).join(' · ')||p.credit);
+const venue=c=>c;
+
+/* ---------- exhibition views: files in /views, captions from teddycoste.com, in site order ---------- */
+const EV=[
+ ['Die1','Exhibition view, <em>Die Ilse ist Weg</em><br>Boardroom, Glasgow, 2025'],
+ ['Die2','Exhibition view, <em>Die Ilse ist Weg</em><br>Boardroom, Glasgow, 2025'],
+ ['Die3','Exhibition view, <em>Die Ilse ist Weg</em><br>Boardroom, Glasgow, 2025'],
+ ['Die4','<em>Untitled (CLOWN)</em>, 2025<br>Print on Satin Paper<br>50 × 33 cm'],
+ ['Die5','<em>Untitled (CLOWN)</em>, 2025<br>Print on Satin Paper<br>50 × 33 cm'],
+ ['farm','Exhibition view, <em>Conduits &amp; Credits</em><br>Cité Internationale des Arts, Paris, 2023'],
+ ['farm1','Exhibition view, <em>Conduits &amp; Credits</em><br>Cité Internationale des Arts, Paris, 2023'],
+ ['farm4','<em>La Vie Privée des Animaux (GOAT)</em>, 2025<br>C-Print<br>30 × 45 cm'],
+ ['farm2','<em>La Vie Privée des Animaux (BOSS)</em>, 2025<br>C-Print<br>45 × 30 cm'],
+ ['BK3','<em>The Studio</em>, 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm'],
+ ['BK2','<em>The Studio</em>, 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm'],
+ ['details','<em>The Studio</em> (details), 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm'],
+ ['details2','<em>The Studio</em> (details), 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm'],
+ ['details3','<em>The Studio</em> (details), 2019<br>Mounted Wallpaper<br>400 × 15 × 300 cm']
+];
+/* consecutive images with the same caption share one row and one caption */
+const EVG=[];EV.forEach(([f,c],i)=>{const g=EVG[EVG.length-1];if(g&&g.c===c)g.i.push(i);else EVG.push({c,i:[i]})});
+const plain=h=>h.replace(/<br>/g,', ').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&');
+$('ev').innerHTML=EVG.map(g=>`<figure class="evg" data-n="${g.i.length}"><div class="evr" style="--n:${g.i.length}">${g.i.map(i=>
+  `<button data-v="${i}" aria-label="Open: ${esc(plain(EV[i][1]))}"><img src="views/${EV[i][0]}.jpg" alt="${esc(plain(EV[i][1]))}" loading="lazy" decoding="async" width="2000" height="1334"></button>`).join('')}</div><figcaption>${g.c}</figcaption></figure>`).join('');
+$('ev').querySelectorAll('img').forEach(im=>{const ok=()=>im.classList.add('ok');im.complete&&im.naturalWidth?ok():im.addEventListener('load',ok)});
+const lb=$('lb'),lbimg=$('lbimg');let li=0,lbOpener=null;
+function lbShow(i){li=(i+EV.length)%EV.length;const [f,c]=EV[li];
+  const swap=()=>{lbimg.src=`views/${f}.jpg`;lbimg.alt=plain(c);$('lbcap').innerHTML=c;$('lbn').textContent=`${li+1} / ${EV.length}`;lbimg.style.opacity=1};
+  if(reduce||!lb.classList.contains('open'))swap();else{lbimg.style.opacity=0;setTimeout(swap,150)}}
+function lbOpen(i){lbOpener=document.activeElement;lbShow(i);lb.classList.add('open');document.body.style.overflow='hidden';$('lbx').focus()}
+function lbClose(){lb.classList.remove('open');document.body.style.overflow='';lbOpener&&lbOpener.focus()}
+$('ev').addEventListener('click',e=>{const b=e.target.closest('button[data-v]');if(b)lbOpen(+b.dataset.v)});
+$('lbprev').onclick=()=>lbShow(li-1);$('lbnext').onclick=()=>lbShow(li+1);$('lbx').onclick=lbClose;
+lb.querySelector('.fr').addEventListener('click',e=>{if(e.target===e.currentTarget)lbClose()});
+addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;
+  if(e.key==='Escape')lbClose();else if(e.key==='ArrowRight')lbShow(li+1);else if(e.key==='ArrowLeft')lbShow(li-1);
+  else if(e.key==='Tab'){const f=[...lb.querySelectorAll('button')],a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}}});
+let lx=null;lb.addEventListener('pointerdown',e=>{lx=e.clientX});lb.addEventListener('pointerup',e=>{if(lx===null)return;const d=e.clientX-lx;lx=null;if(Math.abs(d)>50)lbShow(li+(d<0?1:-1))});
+
+/* ---------- prints ---------- */
+const printHTML=(w,alt='')=>{const v=w.win;
+  return `<div class="pin" style="background-image:url('${w.src}')"><div class="film" style="left:${v.l}%;top:${v.t}%;width:${v.w}%;height:${v.h}%"><img alt="${esc(alt)}" draggable="false" src="${w.src}" style="width:${1e4/v.w}%;height:${1e4/v.h}%;left:${-v.l/v.w*100}%;top:${-v.t/v.h*100}%"><div class="chem"></div></div></div>`};
+/* undeveloped film: the state a print is in before it reaches the centre */
+const RAW='brightness(.42) contrast(.3) saturate(0) sepia(0) hue-rotate(-35deg) blur(2px)';
+function undev(el){const img=el.querySelector('img'),ch=el.querySelector('.chem');if(!img)return;
+  img.getAnimations().forEach(a=>a.cancel());ch.getAnimations().forEach(a=>a.cancel());
+  if(reduce)img.style.opacity=0;else img.style.filter=RAW;ch.style.opacity=1}
+function develop(el,dur,delay=0){
+  const img=el.querySelector('img'),ch=el.querySelector('.chem');if(!img)return;
+  img.getAnimations().forEach(a=>a.cancel());ch.getAnimations().forEach(a=>a.cancel());
+  if(reduce){img.animate([{opacity:0},{opacity:1}],{duration:400,delay,easing:'ease',fill:'both'});ch.animate([{opacity:1},{opacity:0}],{duration:400,delay,fill:'both'});return}
+  const o={duration:dur,delay,easing:'linear',fill:'both'};
+  img.animate([{filter:'brightness(.42) contrast(.3) saturate(0) sepia(0) hue-rotate(-35deg) blur(2px)'},
+    {filter:'brightness(.68) contrast(.5) saturate(.2) sepia(.35) hue-rotate(-30deg) blur(1.2px)',offset:.35},
+    {filter:'brightness(.96) contrast(.86) saturate(.75) sepia(.16) hue-rotate(-10deg) blur(0px)',offset:.75},
+    {filter:'brightness(1) contrast(1) saturate(1) sepia(0) hue-rotate(0deg) blur(0px)'}],o);
+  ch.animate([{opacity:1},{opacity:.93,offset:.12},{opacity:.45,offset:.45},{opacity:.1,offset:.8},{opacity:0}],o);
+}
+function ink(el,dur=700){el.getAnimations().forEach(a=>a.cancel());if(reduce)return el.animate([{opacity:0},{opacity:1}],{duration:200});
+  el.animate([{clipPath:'inset(0 100% 0 0)',filter:'blur(8px)',opacity:.4},{clipPath:'inset(0 0% 0 0)',filter:'blur(0px)',opacity:1}],{duration:dur,easing:'cubic-bezier(0.23, 1, 0.32, 1)'})}
+
+/* ---------- index ---------- */
+$('list').innerHTML=P.map(p=>`<li><a href="#${p.slug}" data-s="${p.slug}"><span class="yr">${p.year||'—'}</span><span class="t serif">${esc(p.short||p.title)}</span><span class="v">${esc(p.where||venues(p))}</span></a></li>`).join('');
+/* hover preview: the first print of a performance develops beside the pointer */
+const peek=$('peek'),fine=matchMedia('(hover: hover) and (pointer: fine)').matches;let peekOn=null;
+if(fine){
+  $('list').addEventListener('pointerover',e=>{const a=e.target.closest('a');if(!a||a===peekOn)return;peekOn=a;
+    const p=P.find(x=>x.slug===a.dataset.s);const f=prints(p)[0];peek.innerHTML=printHTML(f);peek.classList.toggle('land',f.o==='L');peek.classList.add('on');develop(peek,1400)});
+  $('list').addEventListener('pointermove',e=>{peek.style.transform=`translate(${e.clientX+28}px,${e.clientY-90}px) rotate(-2deg)`});
+  $('list').addEventListener('pointerleave',()=>{peekOn=null;peek.classList.remove('on')});
+}
+
+/* ---------- a performance ---------- */
+const stage=$('stage'),ring=$('ring');
+let perf=null,works=[],els=[],pos=0,target=0,vel=0,pw=240,cur=-1,devd=new Set();
+function layout(){if(!perf)return;
+  const W=stage.clientWidth;pw=Math.round(Math.min(310,Math.max(190,W*.21)));
+  stage.style.setProperty('--pw',pw+'px');stage.style.setProperty('--sh',Math.round(pw*1.256+(W<600?100:140))+'px');render();
+}
+function build(start=0){
+  ring.innerHTML=works.map((w,i)=>`<div class="print${w.o==='L'?' land':''}" data-i="${i}" aria-hidden="true">${printHTML(w)}</div>`).join('');
+  els=[...ring.children];devd=new Set();
+  els.forEach(undev);
+  pos=target=start;vel=0;cur=-1;layout();
+}
+function render(){
+  els.forEach((el,i)=>{
+    const d=i-pos,ad=Math.abs(d);
+    if(ad>8){el.style.visibility='hidden';return}
+    /* a fan: spacing tightens and prints turn toward spines as they leave the centre */
+    const sg=Math.sign(d),x=sg*pw*2.6*(1-Math.exp(-ad*.42)),rot=sg*80*(1-Math.exp(-ad*.9)),
+      z=-pw*.62*ad**.85+Math.max(0,1-ad)*pw*.35;
+    el.style.visibility='';el.style.zIndex=1000-Math.round(ad*10);
+    el.style.transform=`translate3d(${x.toFixed(1)}px,0,${z.toFixed(1)}px) rotateY(${(-rot).toFixed(2)}deg)`;
+    el.style.opacity=Math.max(0,1-Math.max(0,ad-4.5)*.4);
+    el.classList.toggle('on',ad<.5);
+  });
+  const i=Math.max(0,Math.min(works.length-1,Math.round(pos)));if(i!==cur){cur=i;caption()}
+}
+function caption(){const w=works[cur];if(!w)return;
+  if(!devd.has(cur)&&els[cur]){devd.add(cur);develop(els[cur],2600,devd.size===1?250:0)}
+  const c=$('count');c.textContent=`${cur+1} / ${works.length}`;ink(c,500)}
+
+function show(p){
+  perf=p;works=prints(p);
+  $('ptitle').textContent=p.title;$('pcredit').textContent=[p.credit,p.year].filter(Boolean).join(' · ');
+  $('desc').innerHTML=p.desc?p.desc.split('\n\n').map(t=>t.startsWith('> ')?`<blockquote>${esc(t.slice(2))}</blockquote>`:`<p>${esc(t).replace(/\n/g,'<br>')}</p>`).join(''):'';
+  /* optional video documentation under the text: video:'YouTube id' */
+  if(p.video)$('desc').innerHTML+=`<div class="video"><iframe src="https://www.youtube-nocookie.com/embed/${p.video}" title="${esc(p.title)}, video documentation" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div><p class="vlink"><a href="https://www.youtube.com/watch?v=${p.video}">Watch on YouTube</a></p>`;
+  document.querySelector('.back').hidden=!!p.solo;
+  const i=p.solo?-9:P.indexOf(p),a=P[i-1],b=P[i+1];
+  $('pn').innerHTML=(a?`<a href="#${a.slug}"><small>Previous</small><span class="serif">${esc(a.short||a.title)}</span></a>`:'<span></span>')+
+    (b?`<a href="#${b.slug}"><small>Next</small><span class="serif">${esc(b.short||b.title)}</span></a>`:'');
+  build(Math.floor((works.length-1)/2));ink($('ptitle'),800);
+}
+
+/* ---------- Instant Photographs: mosaic of developed prints, the clicked one comes forward and develops ---------- */
+const ipList=prints(IP),ipv=$('ipv'),ipbig=$('ipbig');let ii=0,ipOpener=null;
+$('mosaic').innerHTML=ipList.map((w,i)=>`<button class="tile" data-i="${i}" aria-label="Open photograph ${i+1} of ${ipList.length}"><div class="print${w.o==='L'?' land':''}" style="rotate:${((i*37)%7-3)*.4}deg">${printHTML(w,'Instant photograph '+(i+1))}</div></button>`).join('');
+function ipShow(i,fromEl){ii=(i+ipList.length)%ipList.length;const w=ipList[ii],land=w.o==='L';
+  ipbig.classList.toggle('land',land);ipbig.innerHTML=printHTML(w,'Instant photograph '+(ii+1));
+  $('ipcap').innerHTML=`<em>Fujifilm Instax Wide</em><br>${land?'108 × 86 mm':'86 × 108 mm'}`;$('ipn').textContent=`${ii+1} / ${ipList.length}`;
+  undev(ipbig);
+  if(!reduce&&fromEl){ /* the print travels from its place in the mosaic to the front */
+    const a=fromEl.getBoundingClientRect(),b=ipbig.getBoundingClientRect();
+    ipbig.animate([{transform:`translate(${a.left+a.width/2-(b.left+b.width/2)}px,${a.top+a.height/2-(b.top+b.height/2)}px) scale(${a.width/b.width})`},{transform:'none'}],{duration:450,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
+  }else if(!reduce)ipbig.animate([{opacity:0,transform:'scale(.97)'},{opacity:1,transform:'none'}],{duration:250,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
+  develop(ipbig,3200,fromEl?350:150)}
+function ipOpen(i,el){ipOpener=el;ipv.classList.add('open');document.body.style.overflow='hidden';ipShow(i,el.querySelector('.print'));$('ipx').focus({preventScroll:true})}
+function ipClose(){ipv.classList.remove('open');document.body.style.overflow='';ipOpener&&ipOpener.focus({preventScroll:true})}
+$('mosaic').addEventListener('click',e=>{const t=e.target.closest('.tile');if(t)ipOpen(+t.dataset.i,t)});
+$('ipprev').onclick=()=>ipShow(ii-1);$('ipnext').onclick=()=>ipShow(ii+1);$('ipx').onclick=ipClose;
+ipv.querySelector('.ipstage').addEventListener('click',e=>{if(e.target===e.currentTarget)ipClose()});
+addEventListener('keydown',e=>{if(!ipv.classList.contains('open'))return;
+  if(e.key==='Escape')ipClose();else if(e.key==='ArrowRight')ipShow(ii+1);else if(e.key==='ArrowLeft')ipShow(ii-1);
+  else if(e.key==='Tab'){const f=[...ipv.querySelectorAll('button')],a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}}});
+let ix=null;ipv.addEventListener('pointerdown',e=>{ix=e.clientX});ipv.addEventListener('pointerup',e=>{if(ix===null)return;const d=e.clientX-ix;ix=null;if(Math.abs(d)>50)ipShow(ii+(d<0?1:-1))});
+
+/* ---------- CV portrait: shown as it is ---------- */
+const bio=$('bio');bio.innerHTML=printHTML({src:'cv/BIO.jpg',win:WINS.P},'Portrait of Teddy Coste');
+
+/* ---------- routing on the hash: # = list, #slug = a performance ---------- */
+function route(){
+  let s=location.hash.slice(1);if(s==='photography')s='instant-photographs';
+  const p=P.find(x=>x.slug===s),page=['instant-photographs','exhibition-views','cv'].includes(s)?s:null;
+  if(det.classList.contains('open'))close(true);
+  [lb,ipv].forEach(o=>{if(o.classList.contains('open')){o.classList.remove('open');document.body.style.overflow=''}});
+  $('index').hidden=!!(p||page);$('perf').hidden=!p;$('page-instant').hidden=page!=='instant-photographs';
+  $('page-exhibition-views').hidden=page!=='exhibition-views';$('page-cv').hidden=page!=='cv';
+  const on=page||(s==='contact'?'':'home');
+  ['home','instant-photographs','exhibition-views','cv'].forEach(k=>$('nav-'+k).toggleAttribute('aria-current',on===k));
+  document.title=p?`${p.short||p.title} — Teddy Coste`:page==='cv'?'CV — Teddy Coste':page==='exhibition-views'?'Exhibition Views — Teddy Coste':page==='instant-photographs'?'Instant Photographs — Teddy Coste':'Teddy Coste — Selected Performances';
+  if(p){show(p);scrollTo(0,0);stage.focus({preventScroll:true})}
+  else{perf=null;peek.classList.remove('on');if(s==='contact')$('contact').scrollIntoView();else scrollTo(0,0)}
+}
+addEventListener('hashchange',route);
+
+/* ---------- physics: critically damped spring (damping 1, response 0.4) ---------- */
+const K=(2*Math.PI/.4)**2,C=4*Math.PI/.4;let last=0,raf=0,dragging=false;
+function tick(t){const dt=Math.min(.05,(t-(last||t))/1000);last=t;
+  if(!dragging){for(let s=0,n=4;s<n;s++){const h=dt/n;vel+=(K*(target-pos)-C*vel)*h;pos+=vel*h}}
+  render();
+  if(dragging||Math.abs(target-pos)>.0005||Math.abs(vel)>.001)raf=requestAnimationFrame(tick);else{pos=target;render();raf=0;last=0}}
+const go=()=>{if(!raf)raf=requestAnimationFrame(tick)};
+const clampI=v=>Math.max(0,Math.min(works.length-1,v));
+const to=i=>{target=clampI(Math.round(i));if(reduce){pos=target;vel=0;render()}else go()};
+
+/* drag with momentum projection and soft ends */
+let sx=0,sp=0,moved=0,hist=[];
+stage.addEventListener('pointerdown',e=>{if(e.button)return;stage.setPointerCapture(e.pointerId);dragging=true;moved=0;sx=e.clientX;sp=pos;vel=0;hist=[[e.timeStamp,pos]];stage.classList.add('drag');go()});
+stage.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-sx;moved=Math.max(moved,Math.abs(dx));
+  let p=sp-dx/(pw*1.09);const L=works.length-1;
+  if(p<0)p=-(1-1/(1-p*.6));else if(p>L)p=L+(1-1/(1+(p-L)*.6));
+  pos=p;hist.push([e.timeStamp,pos]);if(hist.length>6)hist.shift()});
+function end(e){if(!dragging)return;dragging=false;stage.classList.remove('drag');
+  if(moved<6){const el=document.elementFromPoint(e.clientX,e.clientY)?.closest('.print');if(el){const i=+el.dataset.i;i===cur&&Math.abs(pos-cur)<.3?open(i):to(i)}else to(pos);return}
+  const [t0,p0]=hist[0],[t1,p1]=hist[hist.length-1];const v=(t1-t0)>0?(p1-p0)/((t1-t0)/1000):0;
+  vel=v;const proj=pos+(v/1000)*.998/(1-.998)*.35;target=clampI(Math.round(proj));go()}
+stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
+
+/* wheel over the fan; hands scrolling back to the page at either end */
+let wacc=0,wt=0;
+stage.addEventListener('wheel',e=>{const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+  if((target<=0&&d<0)||(target>=works.length-1&&d>0))return;e.preventDefault();
+  wacc+=d;if(Math.abs(wacc)>40){to(target+Math.sign(wacc));wacc=0}clearTimeout(wt);wt=setTimeout(()=>wacc=0,160)},{passive:false});
+stage.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){to(target+1);e.preventDefault()}else if(e.key==='ArrowLeft'){to(target-1);e.preventDefault()}
+  else if(e.key==='Enter'||e.key===' '){open(cur);e.preventDefault()}else if(e.key==='Home')to(0);else if(e.key==='End')to(works.length-1)});
+
+/* ---------- detail view ---------- */
+const det=$('detail'),big=$('big');let di=0,opener=null;
+function fill(i){di=i;const w=works[i];big.classList.toggle('land',w.o==='L');big.innerHTML=printHTML(w,`${perf.title}, print ${i+1}`);$('dtitle').textContent=perf.short||perf.title;
+  const [kind,...rest]=(perf.credit||'').split(' · ');
+  $('dl').innerHTML=[['Work',kind],['Venue',rest.join(' · ')],['Year',perf.year],['Print',`${i+1} of ${works.length}`]].filter(r=>r[1]).map(([k,v])=>`<dt>${k}</dt><dd>${esc(v)}</dd>`).join('');
+  $('prev').disabled=i===0;$('next').disabled=i===works.length-1;
+  ink($('dtitle'),800);
+  if(!reduce)big.animate([{transform:'translateY(14px) scale(.96)',opacity:0},{transform:'none',opacity:1}],{duration:450,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
+  develop(big,4800,250)}
+function open(i){opener=document.activeElement;fill(i);det.classList.add('open');document.body.style.overflow='hidden';$('close').focus()}
+function close(silent){det.classList.remove('open');document.body.style.overflow='';if(silent)return;to(di);(opener||stage).focus()}
+$('close').onclick=()=>close();$('prev').onclick=()=>fill(Math.max(0,di-1));$('next').onclick=()=>fill(Math.min(works.length-1,di+1));
+addEventListener('keydown',e=>{if(!det.classList.contains('open'))return;if(e.key==='Escape')close();
+  if(e.key==='ArrowRight'&&di<works.length-1)fill(di+1);if(e.key==='ArrowLeft'&&di>0)fill(di-1);
+  if(e.key==='Tab'){const f=[...det.querySelectorAll('button:not([disabled])')];const a=f[0],z=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===a){z.focus();e.preventDefault()}else if(!e.shiftKey&&document.activeElement===z){a.focus();e.preventDefault()}}});
+
+$('foot').textContent=`© ${new Date().getFullYear()} Teddy Coste`;
+new ResizeObserver(layout).observe(stage);
+route();
+}
+</script>
 </body>
 </html>
