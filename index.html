@@ -33,7 +33,7 @@
   
   --bg:light-dark(#e3e5e4,#101413);--ink:light-dark(#141615,#ecebe6);--soft:light-dark(#585d5a,#9ba29e);
   --line:light-dark(#c4c6c3,#29302e);--accent:light-dark(#2d5a62,#86bcc3);--ghost:light-dark(rgba(20,22,21,.07),rgba(236,235,230,.06));
-  --film:#e0e4e1;--paper:#f7f6f1;
+  --film:#e0e4e1;--card:#d9dcda;--paper:#f7f6f1;
   --ease-out:cubic-bezier(0.23,1,0.32,1);--ease-in-out:cubic-bezier(0.77,0,0.175,1)}
 :root,:root[data-theme=light],:root[data-theme=dark]{color-scheme:only light}
 html,body{background:#e3e5e4;color:#141615}
@@ -57,14 +57,21 @@ nav a[aria-current]{color:var(--ink)}
 
 /* ---------- index: list of performances ---------- */
 .index{max-width:1240px;margin:0 auto;padding:clamp(40px,7vw,96px) max(5vw,16px) clamp(32px,5vw,64px)}
-.index h1{margin:0 0 clamp(24px,4vw,40px);font-size:clamp(34px,5vw,52px);line-height:1.05}
-.list{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.list a{display:grid;grid-template-columns:5ch minmax(0,1fr) minmax(0,.8fr);gap:8px 24px;align-items:baseline;padding:16px 4px;
-  border-bottom:1px solid var(--line);text-decoration:none;transition:background-color 200ms ease}
-.list .yr{font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
+.index h1{margin:0 0 clamp(52px,7vw,84px);font-size:clamp(34px,5vw,52px);line-height:1.05}
+.list{list-style:none;margin:0;padding:0}
+/* index cards in a drawer: each performance is a card with a small tinted tab carrying its year */
+.list li{position:relative;margin-top:22px;transition:transform 260ms var(--ease-out)}
+.list li:first-child{margin-top:0}
+.list .tab{position:absolute;left:0;top:-19px;height:20px;padding:0 9px;font-size:11.5px;line-height:20px;letter-spacing:.02em;
+  font-variant-numeric:tabular-nums;color:var(--ink);background:var(--card);border-radius:4px 4px 0 0;pointer-events:none}
+.list a{display:grid;grid-template-columns:5ch minmax(0,1fr) minmax(0,.8fr);gap:8px 24px;align-items:baseline;padding:16px 4px 14px;
+  border-top:2px solid var(--card);text-decoration:none}
+.list .yr{color:transparent!important;font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
 .list .t{font-size:clamp(22px,2.6vw,30px);line-height:1.15;text-wrap:balance}
 .list .v{font-size:14px;color:var(--soft)}
-@media (hover:hover) and (pointer:fine){.list a:hover{background:var(--ghost)}}
+@media (hover:hover) and (pointer:fine){.list li:hover{transform:translateY(-5px)}
+  .list li:hover a{background:linear-gradient(var(--card),rgba(217,220,218,0) 70%)}}
+@media (prefers-reduced-motion:reduce){.list li{transition:none}}
 @media (max-width:700px){.list a{grid-template-columns:5ch minmax(0,1fr)}.list .v{grid-column:2}}
 .peek{position:fixed;left:0;top:0;width:150px;aspect-ratio:86/108;pointer-events:none;z-index:40;opacity:0;transition:opacity 200ms var(--ease-out)}
 .peek.on{opacity:1}.peek.land{width:188px;aspect-ratio:108/86}
@@ -492,7 +499,7 @@ function ink(el,dur=700){el.getAnimations().forEach(a=>a.cancel());if(reduce)ret
   el.animate([{clipPath:'inset(0 100% 0 0)',filter:'blur(8px)',opacity:.4},{clipPath:'inset(0 0% 0 0)',filter:'blur(0px)',opacity:1}],{duration:dur,easing:'cubic-bezier(0.23, 1, 0.32, 1)'})}
 
 /* ---------- index ---------- */
-$('list').innerHTML=P.map(p=>`<li><a href="#${p.slug}" data-s="${p.slug}"><span class="yr">${p.year||'—'}</span><span class="t serif">${esc(p.short||p.title)}</span><span class="v">${esc(p.where||venues(p)).split(' · ').join('<br>')}</span></a></li>`).join('');
+$('list').innerHTML=P.map(p=>`<li><span class="tab" aria-hidden="true">${p.year||'—'}</span><a href="#${p.slug}" data-s="${p.slug}"><span class="yr">${p.year||'—'}</span><span class="t serif">${esc(p.short||p.title)}</span><span class="v">${esc(p.where||venues(p)).split(' · ').join('<br>')}</span></a></li>`).join('');
 /* hover preview: the first print of a performance develops beside the pointer */
 const peek=$('peek'),fine=matchMedia('(hover: hover) and (pointer: fine)').matches;let peekOn=null;
 if(fine){
