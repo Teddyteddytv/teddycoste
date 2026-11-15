@@ -587,6 +587,8 @@ function route(){
   let s=location.hash.slice(1);if(s==='photography')s='instant-photographs';
   const p=P.find(x=>x.slug===s),page=['instant-photographs','exhibition-views','cv'].includes(s)?s:null;
   if(det.classList.contains('open'))close(true);
+  /* leaving a performance: remove its videos so nothing keeps playing in the background */
+  if(!p)$('desc').querySelectorAll('.video,.vlink').forEach(e=>e.remove());
   [lb,ipv].forEach(o=>{if(o.classList.contains('open')){o.classList.remove('open');document.body.style.overflow=''}});
   $('index').hidden=!!(p||page);$('perf').hidden=!p;$('page-instant').hidden=page!=='instant-photographs';
   $('page-exhibition-views').hidden=page!=='exhibition-views';$('page-cv').hidden=page!=='cv';
