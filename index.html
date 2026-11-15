@@ -4,7 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="only light">
-<title>Teddy Coste — Performances</title>
+<title>Teddy Coste — Artist · Performances</title>
+<meta name="description" content="Teddy Coste (born 1992, Bergerac) is a French artist based in Paris, working with performance, writing and radio drama. Selected performances, instant photographs, exhibition views and CV.">
+<meta name="author" content="Teddy Coste">
+<link rel="canonical" href="https://teddycoste.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Teddy Coste">
+<meta property="og:title" content="Teddy Coste — Artist">
+<meta property="og:description" content="Teddy Coste (born 1992, Bergerac) is a French artist based in Paris, working with performance, writing and radio drama. Selected performances, instant photographs, exhibition views and CV.">
+<meta property="og:url" content="https://teddycoste.com/">
+<meta property="og:image" content="https://teddycoste.com/prints/MEET.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Person","name":"Teddy Coste","url":"https://teddycoste.com/",
+"jobTitle":"Artist","description":"Teddy Coste (born 1992, Bergerac) is a French artist based in Paris, working with performance, writing and radio drama. Selected performances, instant photographs, exhibition views and CV.","birthDate":"1992","birthPlace":{"@type":"Place","name":"Bergerac, France"},
+"homeLocation":{"@type":"Place","name":"Paris, France"},"nationality":"French","knowsAbout":["Performance art","Writing","Radio drama","Instant photography"]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
@@ -567,7 +582,7 @@ function route(){
   $('page-exhibition-views').hidden=page!=='exhibition-views';$('page-cv').hidden=page!=='cv';
   const on=page||(s==='contact'?'':'home');
   ['home','instant-photographs','exhibition-views','cv'].forEach(k=>$('nav-'+k).toggleAttribute('aria-current',on===k));
-  document.title=p?`${p.short||p.title} — Teddy Coste`:page==='cv'?'CV — Teddy Coste':page==='exhibition-views'?'Exhibition Views — Teddy Coste':page==='instant-photographs'?'Instant Photographs — Teddy Coste':'Teddy Coste — Selected Performances';
+  document.title=p?`${p.short||p.title} — Teddy Coste`:page==='cv'?'CV — Teddy Coste':page==='exhibition-views'?'Exhibition Views — Teddy Coste':page==='instant-photographs'?'Instant Photographs — Teddy Coste':'Teddy Coste — Artist · Performances';
   if(p){show(p);scrollTo(0,0);stage.focus({preventScroll:true})}
   else{perf=null;peek.classList.remove('on');if(s==='contact')$('contact').scrollIntoView();else scrollTo(0,0)}
 }
