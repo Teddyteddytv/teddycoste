@@ -12,13 +12,13 @@
 /* VOICE: a quiet archive; the prints talk, captions stay small and exact, like his current site
    IDEA: a box of Instax Wide reprints, one bundle per performance, each print still developing
    PICTURE: a curved fan of prints in 3D, the front one forward, the rest turning away like spines
-   COLOUR and TYPE: pale grey wall, ink black, undeveloped-film teal accent; Libre Franklin throughout (stand-in for TeeFranklin)
+   COLOUR and TYPE: pale grey wall, ink black, pale undeveloped-film grey; Libre Franklin throughout (stand-in for TeeFranklin)
    LAYOUT: index = list of performances; a performance = title, fan of its prints, caption, description, previous/next */
 :root{color-scheme:only light; /* always dark ink on the light wall, whatever the device theme */
   
   --bg:light-dark(#e3e5e4,#101413);--ink:light-dark(#141615,#ecebe6);--soft:light-dark(#585d5a,#9ba29e);
   --line:light-dark(#c4c6c3,#29302e);--accent:light-dark(#2d5a62,#86bcc3);--ghost:light-dark(rgba(20,22,21,.07),rgba(236,235,230,.06));
-  --film:#2b3d42;--paper:#f7f6f1;
+  --film:#e0e4e1;--paper:#f7f6f1;
   --ease-out:cubic-bezier(0.23,1,0.32,1);--ease-in-out:cubic-bezier(0.77,0,0.175,1)}
 :root,:root[data-theme=light],:root[data-theme=dark]{color-scheme:only light}
 html,body{background:#e3e5e4;color:#141615}
@@ -71,8 +71,9 @@ nav a[aria-current]{color:var(--ink)}
 .print.on .pin:active{transform:scale(.97)}
 .film{position:absolute;overflow:hidden;background:var(--film)}
 .film img{position:absolute;display:block;max-width:none}
+.film canvas.dev{position:absolute;inset:0;width:100%;height:100%;display:block}
 .chem{position:absolute;inset:0;pointer-events:none;background-color:var(--film);
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .75 0 0 0 0 .85 0 0 0 0 .88 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .6 0 0 0 0 .58 0 0 0 .1 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
 
 .cap{text-align:center;padding:0 max(5vw,16px);margin-top:-6px}
 .count{margin:0;font-size:14px;color:var(--soft);font-variant-numeric:tabular-nums}
@@ -413,21 +414,64 @@ let lx=null;lb.addEventListener('pointerdown',e=>{lx=e.clientX});lb.addEventList
 /* ---------- prints ---------- */
 const printHTML=(w,alt='')=>{const v=w.win;
   return `<div class="pin" style="background-image:url('${w.src}')"><div class="film" style="left:${v.l}%;top:${v.t}%;width:${v.w}%;height:${v.h}%"><img alt="${esc(alt)}" draggable="false" src="${w.src}" style="width:${1e4/v.w}%;height:${1e4/v.h}%;left:${-v.l/v.w*100}%;top:${-v.t/v.h*100}%"><div class="chem"></div></div></div>`};
-/* undeveloped film: the state a print is in before it reaches the centre */
-const RAW='brightness(.42) contrast(.3) saturate(0) sepia(0) hue-rotate(-35deg) blur(2px)';
+/* ---------- development, modelled on Instax ----------
+   The print comes out pale (milky grey-white), never dark. Density builds up from there:
+   the deepest shadows show first, then the mid-tones, the highlights last. Inside each pixel the
+   dye layers do not arrive together: the cyan layer leads (the image looks cold and bluish at first),
+   magenta follows, yellow comes last and warms everything up. A slow, soft unevenness makes some
+   areas arrive a little earlier than others, and a fine grain fades as the image gains density. */
+const PAPER=[224,228,225];
+function stopDev(el){if(el._raf)cancelAnimationFrame(el._raf);el._raf=0;el._dev=null;
+  const c=el.querySelector('canvas.dev');if(c)c.remove()}
 function undev(el){const img=el.querySelector('img'),ch=el.querySelector('.chem');if(!img)return;
-  img.getAnimations().forEach(a=>a.cancel());ch.getAnimations().forEach(a=>a.cancel());
-  if(reduce)img.style.opacity=0;else img.style.filter=RAW;ch.style.opacity=1}
+  stopDev(el);img.getAnimations().forEach(a=>a.cancel());img.style.opacity=0;ch.style.opacity=1}
+function blotches(W,H,seed){ /* low-frequency value noise, 0..1 */
+  const gx=7,gy=Math.max(2,Math.round(7*H/W)),g=new Float32Array((gx+1)*(gy+1));let s=seed;
+  for(let i=0;i<g.length;i++){s=(s*16807)%2147483647;g[i]=s/2147483647}
+  const out=new Float32Array(W*H),sm=t=>t*t*(3-2*t);
+  for(let y=0;y<H;y++){const fy=y/H*gy,iy=fy|0,ty=sm(fy-iy);
+    for(let x=0;x<W;x++){const fx=x/W*gx,ix=fx|0,tx=sm(fx-ix),k=iy*(gx+1)+ix;
+      const a=g[k]+(g[k+1]-g[k])*tx,b=g[k+gx+1]+(g[k+gx+2]-g[k+gx+1])*tx;out[y*W+x]=a+(b-a)*ty}}
+  return out}
 function develop(el,dur,delay=0){
-  const img=el.querySelector('img'),ch=el.querySelector('.chem');if(!img)return;
-  img.getAnimations().forEach(a=>a.cancel());ch.getAnimations().forEach(a=>a.cancel());
-  if(reduce){img.animate([{opacity:0},{opacity:1}],{duration:400,delay,easing:'ease',fill:'both'});ch.animate([{opacity:1},{opacity:0}],{duration:400,delay,fill:'both'});return}
-  const o={duration:dur,delay,easing:'linear',fill:'both'};
-  img.animate([{filter:'brightness(.42) contrast(.3) saturate(0) sepia(0) hue-rotate(-35deg) blur(2px)'},
-    {filter:'brightness(.68) contrast(.5) saturate(.2) sepia(.35) hue-rotate(-30deg) blur(1.2px)',offset:.35},
-    {filter:'brightness(.96) contrast(.86) saturate(.75) sepia(.16) hue-rotate(-10deg) blur(0px)',offset:.75},
-    {filter:'brightness(1) contrast(1) saturate(1) sepia(0) hue-rotate(0deg) blur(0px)'}],o);
-  ch.animate([{opacity:1},{opacity:.93,offset:.12},{opacity:.45,offset:.45},{opacity:.1,offset:.8},{opacity:0}],o);
+  const img=el.querySelector('img'),ch=el.querySelector('.chem'),film=el.querySelector('.film');if(!img)return;
+  undev(el);const tok={};el._dev=tok;
+  if(reduce){ch.style.opacity=0;img.animate([{opacity:0},{opacity:1}],{duration:400,delay,easing:'ease',fill:'forwards'}).onfinish=()=>{img.style.opacity=1};return}
+  (img.complete&&img.naturalWidth?Promise.resolve():img.decode()).then(()=>{
+    if(el._dev!==tok)return;
+    const fw=film.offsetWidth,fh=film.offsetHeight;if(!fw||!fh){img.style.opacity=1;ch.style.opacity=0;return}
+    const k=Math.min(Math.min(devicePixelRatio||1,2),640/Math.max(fw,fh)),W=Math.max(1,Math.round(fw*k)),H=Math.max(1,Math.round(fh*k));
+    const cv=document.createElement('canvas');cv.className='dev';cv.width=W;cv.height=H;
+    const cx=cv.getContext('2d',{willReadFrequently:true});
+    const nw=img.naturalWidth,nh=img.naturalHeight,L=parseFloat(film.style.left)/100,T=parseFloat(film.style.top)/100,
+      FW=parseFloat(film.style.width)/100,FH=parseFloat(film.style.height)/100;
+    cx.drawImage(img,nw*L,nh*T,nw*FW,nh*FH,0,0,W,H);
+    let src;try{src=cx.getImageData(0,0,W,H).data}catch(e){img.style.opacity=1;ch.style.opacity=0;return}
+    const N=W*H,start=new Float32Array(N),grain=new Float32Array(N),bl=blotches(W,H,(Math.random()*1e9|0)+1);
+    for(let i=0,j=0;i<N;i++,j+=4){
+      const lum=(.299*src[j]+.587*src[j+1]+.114*src[j+2])/255;
+      /* dark first, light last, with soft patches arriving a bit early or late */
+      start[i]=.03+.46*Math.pow(lum,1.15)+(bl[i]-.5)*.12;
+      grain[i]=Math.random()-.5}
+    const out=cx.createImageData(W,H),o=out.data,LAG=[0,.06,.12],SPAN=.34;
+    film.insertBefore(cv,ch);ch.style.opacity=0;
+    let t0=0;
+    const frame=now=>{
+      if(el._dev!==tok)return;
+      if(!t0)t0=now+delay;const t=Math.max(0,(now-t0)/dur);
+      for(let i=0,j=0;i<N;i++,j+=4){
+        const s=start[i];let gsum=0,r,gr,bb;
+        for(let c=0;c<3;c++){let g=(t-s-LAG[c])/SPAN;g=g<=0?0:g>=1?1:g*g*(3-2*g);gsum+=g;
+          const v=PAPER[c]+(src[j+c]-PAPER[c])*g;if(c===0)r=v;else if(c===1)gr=v;else bb=v}
+        /* colour stays muted while density is still building, then saturates */
+        const q=gsum/3,sat=.3+.7*q*q,m=(r+gr+bb)/3,n=grain[i]*10*(1-q);
+        o[j]=m+(r-m)*sat+n;o[j+1]=m+(gr-m)*sat+n;o[j+2]=m+(bb-m)*sat+n;o[j+3]=255}
+      cx.putImageData(out,0,0);
+      if(t<1)el._raf=requestAnimationFrame(frame);
+      else{img.style.opacity=1;el._raf=0;requestAnimationFrame(()=>{if(el._dev===tok)cv.remove()})}
+    };
+    el._raf=requestAnimationFrame(frame);
+  }).catch(()=>{img.style.opacity=1;ch.style.opacity=0})
 }
 function ink(el,dur=700){el.getAnimations().forEach(a=>a.cancel());if(reduce)return el.animate([{opacity:0},{opacity:1}],{duration:200});
   el.animate([{clipPath:'inset(0 100% 0 0)',filter:'blur(8px)',opacity:.4},{clipPath:'inset(0 0% 0 0)',filter:'blur(0px)',opacity:1}],{duration:dur,easing:'cubic-bezier(0.23, 1, 0.32, 1)'})}
@@ -438,7 +482,7 @@ $('list').innerHTML=P.map(p=>`<li><a href="#${p.slug}" data-s="${p.slug}"><span 
 const peek=$('peek'),fine=matchMedia('(hover: hover) and (pointer: fine)').matches;let peekOn=null;
 if(fine){
   $('list').addEventListener('pointerover',e=>{const a=e.target.closest('a');if(!a||a===peekOn)return;peekOn=a;
-    const p=P.find(x=>x.slug===a.dataset.s);const f=prints(p)[0];peek.innerHTML=printHTML(f);peek.classList.toggle('land',f.o==='L');peek.classList.add('on');develop(peek,1400)});
+    const p=P.find(x=>x.slug===a.dataset.s);const f=prints(p)[0];peek.innerHTML=printHTML(f);peek.classList.toggle('land',f.o==='L');peek.classList.add('on');develop(peek,1800)});
   $('list').addEventListener('pointermove',e=>{peek.style.transform=`translate(${e.clientX+28}px,${e.clientY-90}px) rotate(-2deg)`});
   $('list').addEventListener('pointerleave',()=>{peekOn=null;peek.classList.remove('on')});
 }
@@ -471,7 +515,7 @@ function render(){
   const i=Math.max(0,Math.min(works.length-1,Math.round(pos)));if(i!==cur){cur=i;caption()}
 }
 function caption(){const w=works[cur];if(!w)return;
-  if(!devd.has(cur)&&els[cur]){devd.add(cur);develop(els[cur],2600,devd.size===1?250:0)}
+  if(!devd.has(cur)&&els[cur]){devd.add(cur);develop(els[cur],3800,devd.size===1?250:0)}
   const c=$('count');c.textContent=`${cur+1} / ${works.length}`;ink(c,500)}
 
 function show(p){
@@ -498,7 +542,7 @@ function ipShow(i,fromEl){ii=(i+ipList.length)%ipList.length;const w=ipList[ii],
     const a=fromEl.getBoundingClientRect(),b=ipbig.getBoundingClientRect();
     ipbig.animate([{transform:`translate(${a.left+a.width/2-(b.left+b.width/2)}px,${a.top+a.height/2-(b.top+b.height/2)}px) scale(${a.width/b.width})`},{transform:'none'}],{duration:450,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
   }else if(!reduce)ipbig.animate([{opacity:0,transform:'scale(.97)'},{opacity:1,transform:'none'}],{duration:250,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
-  develop(ipbig,3200,fromEl?350:150)}
+  develop(ipbig,4200,fromEl?350:150)}
 function ipOpen(i,el){ipOpener=el;ipv.classList.add('open');document.body.style.overflow='hidden';ipShow(i,el.querySelector('.print'));$('ipx').focus({preventScroll:true})}
 function ipClose(){ipv.classList.remove('open');document.body.style.overflow='';ipOpener&&ipOpener.focus({preventScroll:true})}
 $('mosaic').addEventListener('click',e=>{const t=e.target.closest('.tile');if(t)ipOpen(+t.dataset.i,t)});
@@ -568,7 +612,7 @@ function fill(i){di=i;const w=works[i];big.classList.toggle('land',w.o==='L');bi
   $('prev').disabled=i===0;$('next').disabled=i===works.length-1;
   ink($('dtitle'),800);
   if(!reduce)big.animate([{transform:'translateY(14px) scale(.96)',opacity:0},{transform:'none',opacity:1}],{duration:450,easing:'cubic-bezier(0.23, 1, 0.32, 1)'});
-  develop(big,4800,250)}
+  develop(big,5600,250)}
 function open(i){opener=document.activeElement;fill(i);det.classList.add('open');document.body.style.overflow='hidden';$('close').focus()}
 function close(silent){det.classList.remove('open');document.body.style.overflow='';if(silent)return;to(di);(opener||stage).focus()}
 $('close').onclick=()=>close();$('prev').onclick=()=>fill(Math.max(0,di-1));$('next').onclick=()=>fill(Math.min(works.length-1,di+1));
